@@ -1,0 +1,92 @@
+---
+title:      "爬虫笔记（1）"
+date:       2018-07-29 16:39:53
+author:     "Nick"
+tags:
+- 爬虫
+- Python
+---
+
+       前言：主要是跟着专栏的流程学习下来的。
+       这里是学习笔记。
+       专栏链接：https://blog.csdn.net/column/details/15321.html 
+
+### 基本操作
+urllib.request模块是用来打开和读取url的；
+```py
+from urllib import request
+response=request.urlopen(url)
+html=response.read()
+
+import chardet
+charset=chardet.detect(html) # 获取对应网页的编码方式
+html.decode(....)
+```
+urlopen函数还支持以request为参数
+```py
+req = request.Request("http://baidu.com/")
+response = request.urlopen(req)
+```
+其返回对象除了通过read()能读出其内容，此外geturl( ), getcode( ), info( )能够获取服务器返回的不同信息，如URL、状态码、服务器信息等。
+
+urlopen函数还有data参数，这意味着我们能够做出POST操作，data参数有特定格式，可以使用urllib.parse.urlencode( ).
+审查元素能够得到我们需要的大部分信息
+{% qnimg 8/1.png %}
+翻译接口URL也可以发现
+{% qnimg 8/2.png %}
+不过发现事实上这并不是真正的翻译接口，经过查阅http://fanyi.youdao.com/translate才是对的
+
+```py
+# coding:UTF-8  
+from urllib import request  
+from urllib import parse  
+import json  
+  
+reqURL='http://fanyi.youdao.com/translate'  
+FormData={}  # 构造提交的data
+FormData['i']='nick stu'  # formdata里面的元素并不需要全部都写上，可以自行尝试
+FormData['doctype']='json'  
+data=parse.urlencode(FormData).encode('utf-8')  # 转化格式
+resp=request.urlopen(reqURL,data)  # post
+html=resp.read().decode('utf-8')  # 接收返回
+  
+result=json.loads(html)  
+result=result['translateResult'][0][0]['tgt']  # 不妨打印出result就知道为何这样写了
+  
+print(result)
+```
+
+ 1. 构造formdata
+ 2. 转化格式
+ 3. 通过urlopen post
+ 4. 接收返回
+ 5. 读取结果
+
+注：json是一种轻量级的数据交换格式
+参考链接：[http://blog.csdn.net/c406495762/article/details/58716886](http://blog.csdn.net/c406495762/article/details/58716886)
+
+另外的这篇[博客](https://blog.csdn.net/weixin_42251851/article/details/80489403)提供了一个更方便的做法
+```py
+req_url = 'http://fanyi.baidu.com/transapi'  
+Form_Data = {'query': 'just', 'from': 'en', 'to': 'zh'}  
+translate_result = requests.post(req_url, Form_Data)  
+result = translate_result.json()  # 转化为json格式  
+print(result['data'][0]['dst'])
+```
+### urllib.error
+主要有URLError和HTTPError，HTTPError是URLError的子类
+### 关于User-Agent
+通俗地讲，useragent是让爬虫看起来更像浏览器的访问，更不容易被限制。
+
+可以创建request时传参
+```py
+ head = {} #写入User Agent信息 
+ head['User-Agent'] = 'Mozilla/5.0 (Linux; Android 4.1.1; Nexus 7 Build/JRO03D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Safari/535.19'  #创建Request对象 
+ req = request.Request(url, headers=head)
+```
+也可创建后add_header
+ ```py
+req = request.Request(url) #传入headers
+req.add_header('User-Agent', 'Mozilla/5.0 (Linux; Android 4.1.1; Nexus 7 Build/JRO03D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Safari/535.19')
+ ```
+此外还能通过ip代理加强爬虫程序的鲁棒性。

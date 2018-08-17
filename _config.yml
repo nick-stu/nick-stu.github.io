@@ -3,13 +3,13 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Nick's Blog
 subtitle:
 description:
 keywords:
-author: John Doe
-language:
-timezone:
+author: Nick
+language: zh-Hans
+timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -73,7 +73,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -81,3 +81,26 @@ deploy:
   type: git
   repo: https://github.com/nick-stu/nick-stu.github.io.git
   branch: master
+
+#七牛云存储设置
+qiniu:
+  offline: false
+  sync: true
+  bucket: nickblog
+  #secret_file: sec/qn.json or C:
+  access_key: p1klz4OFka8JNz9lbXB8KKJqZ3cwnzGaqksVMHyS
+  secret_key: SZal42kAyD6HL5zLjNtlkEmxF5nC19cXT-xn_YxQ
+  dirPrefix: 
+  urlPrefix: http://pcvtat41q.bkt.clouddn.com
+  up_host: http://upload.qiniu.com
+  local_dir: qiniu
+  update_exist: true
+  image: 
+    folder: images
+    extend: 
+  js:
+    folder: js
+  css:
+    folder: css
+  audio:
+    folder: audio
