@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘,Python,机器学习,Kaggle," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Base Model问题描述需要确保充分浏览题目要求才开始做，比如该题中的Evaluation提到用RMSE即均方根误差去评估效果，而且需要提前将预测结果取对数 House Price的特征非常多，其中类别特征也很多，也有不少缺失值，乍一看去工作量非常大，实际也挺大：） 这个时候我们可以先偷懒要求低点，先建个基模，不需要准备那么充分才开始。 数据概况可以发现属性很多，其中不少categorical">
+<meta name="keywords" content="数据挖掘,Python,机器学习,Kaggle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kaggle(3): House Prices">
+<meta property="og:url" content="http://yoursite.com/2018/08/10/Kaggle-3-House-Prices/index.html">
+<meta property="og:site_name" content="Nick&#39;s Blog">
+<meta property="og:description" content="Base Model问题描述需要确保充分浏览题目要求才开始做，比如该题中的Evaluation提到用RMSE即均方根误差去评估效果，而且需要提前将预测结果取对数 House Price的特征非常多，其中类别特征也很多，也有不少缺失值，乍一看去工作量非常大，实际也挺大：） 这个时候我们可以先偷懒要求低点，先建个基模，不需要准备那么充分才开始。 数据概况可以发现属性很多，其中不少categorical">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/RF_L1.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/Ridge_L1.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/L2.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/1.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/2.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/3.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/4.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/5.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/6.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/7.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/8.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/9.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/10.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/11.png">
+<meta property="og:updated_time" content="2018-08-17T08:08:31.112Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kaggle(3): House Prices">
+<meta name="twitter:description" content="Base Model问题描述需要确保充分浏览题目要求才开始做，比如该题中的Evaluation提到用RMSE即均方根误差去评估效果，而且需要提前将预测结果取对数 House Price的特征非常多，其中类别特征也很多，也有不少缺失值，乍一看去工作量非常大，实际也挺大：） 这个时候我们可以先偷懒要求低点，先建个基模，不需要准备那么充分才开始。 数据概况可以发现属性很多，其中不少categorical">
+<meta name="twitter:image" content="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/RF_L1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/10/Kaggle-3-House-Prices/"/>
+
+
+
+
+
+  <title>Kaggle(3): House Prices | Nick's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?54a703726cc3b37647f2c63e92dec5b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/Kaggle-3-House-Prices/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nick">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kaggle(3): House Prices</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-10T16:07:14+08:00">
+                2018-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Base-Model"><a href="#Base-Model" class="headerlink" title="Base Model"></a>Base Model</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>需要确保充分浏览题目要求才开始做，比如该题中的Evaluation提到用<a href="https://zh.wikipedia.org/wiki/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE" target="_blank" rel="noopener">RMSE</a>即均方根误差去评估效果，而且需要提前将预测结果取对数</p>
+<p>House Price的特征非常多，其中类别特征也很多，也有不少缺失值，乍一看去工作量非常大，实际也挺大：）</p>
+<p>这个时候我们可以先偷懒要求低点，先建个<strong>基模</strong>，不需要准备那么充分才开始。</p>
+<h2 id="数据概况"><a href="#数据概况" class="headerlink" title="数据概况"></a>数据概况</h2><p>可以发现属性很多，其中不少categorical variables，同时也有一定范围的缺失值</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">pandas</span>.<span class="title">core</span>.<span class="title">frame</span>.<span class="title">DataFrame</span>'&gt;</span></span><br><span class="line"><span class="class"><span class="title">RangeIndex</span>:</span> <span class="number">1460</span> entries, <span class="number">0</span> to <span class="number">1459</span></span><br><span class="line">Data columns (total <span class="number">81</span> columns):</span><br><span class="line">Id               <span class="number">1460</span> non-null int64</span><br><span class="line">MSSubClass       <span class="number">1460</span> non-null int64</span><br><span class="line">MSZoning         <span class="number">1460</span> non-null object</span><br><span class="line">LotFrontage      <span class="number">1201</span> non-null float64</span><br><span class="line">LotArea          <span class="number">1460</span> non-null int64</span><br><span class="line">Street           <span class="number">1460</span> non-null object</span><br><span class="line">Alley            <span class="number">91</span> non-null object</span><br><span class="line">...</span><br><span class="line">FireplaceQu      <span class="number">770</span> non-null object</span><br><span class="line">GarageType       <span class="number">1379</span> non-null object</span><br><span class="line">GarageYrBlt      <span class="number">1379</span> non-null float64</span><br><span class="line">GarageFinish     <span class="number">1379</span> non-null object</span><br><span class="line">GarageCars       <span class="number">1460</span> non-null int64</span><br><span class="line">GarageArea       <span class="number">1460</span> non-null int64</span><br><span class="line">GarageQual       <span class="number">1379</span> non-null object</span><br><span class="line">GarageCond       <span class="number">1379</span> non-null object</span><br><span class="line">...</span><br><span class="line">PoolQC           <span class="number">7</span> non-null object</span><br><span class="line">Fence            <span class="number">281</span> non-null object</span><br><span class="line">MiscFeature      <span class="number">54</span> non-null object</span><br><span class="line">...</span><br><span class="line">dtypes: float64(<span class="number">3</span>), int64(<span class="number">35</span>), object(<span class="number">43</span>)</span><br><span class="line">memory usage: <span class="number">924.0</span>+ KB</span><br></pre></td></tr></table></figure>
+<p>看起来挺棘手的，那就先不管那么多建个基模吧</p>
+<h2 id="缺失值"><a href="#缺失值" class="headerlink" title="缺失值"></a>缺失值</h2><p>这里简单的对numerical variables进行填充，而对于categorical variables不进行填充，直接将缺失值作为一类。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'MSSubClass'</span>] = data[<span class="string">'MSSubClass'</span>].astype(str)</span><br><span class="line"><span class="comment"># fillna for num</span></span><br><span class="line">category_cols=data.select_dtypes(include=[<span class="string">'object'</span>]).columns.values</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> data.columns:</span><br><span class="line">    <span class="keyword">if</span> item <span class="keyword">not</span> <span class="keyword">in</span> category_cols:</span><br><span class="line">        data[item] = data[item].fillna(data.mean()[item])</span><br></pre></td></tr></table></figure></p>
+<h2 id="Categorical-Variables处理"><a href="#Categorical-Variables处理" class="headerlink" title="Categorical Variables处理"></a>Categorical Variables处理</h2><p>如何处理类别属性？</p>
+<p>有个普遍观点是树模型不太需要One-Hot Encoding，这里我都尝试了一遍，选择的是One-Hot encoding 和 <a href="https://blog.csdn.net/sinat_29957455/article/details/79452141" target="_blank" rel="noopener">Label encoding</a></p>
+<blockquote>
+<p>这里需要特别注意，对类别特征进行处理时，最好把训练样本和测试样本拼在一起，因为两份样本不一定拥有类别特征中的所有取值。可能会出现测试集中有训练集不存在的取值。同时放在一起分析也能发现那些在测试集中缺失但在训练集中完整的元素</p>
+</blockquote>
+<h2 id="建模调参"><a href="#建模调参" class="headerlink" title="建模调参"></a>建模调参</h2><h3 id="RandomForest"><a href="#RandomForest" class="headerlink" title="RandomForest"></a>RandomForest</h3><p>起初选用的是RandomForest，要清楚<a href="https://www.cnblogs.com/pinard/p/6160412.html" target="_blank" rel="noopener">随机森林的参数</a>的具体含义，之后可通过<a href="https://blog.csdn.net/juezhanangle/article/details/80051256" target="_blank" rel="noopener">GridSearchCV或者RandomizedSearchCV</a>进行调参(前者耗时太大)。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GridSearch</span><span class="params">(data,label)</span>:</span></span><br><span class="line">    score=[<span class="string">'neg_mean_squared_error'</span>]</span><br><span class="line">    tuned_parameters=&#123;<span class="string">'n_estimators'</span>:range(<span class="number">100</span>,<span class="number">400</span>,<span class="number">30</span>),<span class="string">'max_features'</span>:np.arange(<span class="number">0.1</span>,<span class="number">1</span>,<span class="number">0.3</span>),</span><br><span class="line">                      <span class="string">'max_depth'</span>:range(<span class="number">10</span>,<span class="number">100</span>,<span class="number">10</span>),<span class="string">'min_samples_split'</span>:range(<span class="number">2</span>,<span class="number">10</span>,<span class="number">2</span>),</span><br><span class="line">                      <span class="string">'min_samples_leaf'</span>:range(<span class="number">1</span>,<span class="number">10</span>,<span class="number">2</span>)&#125;</span><br><span class="line">    clf=GridSearchCV(RandomForestRegressor(oob_score=<span class="keyword">True</span>),tuned_parameters,cv=<span class="number">5</span>,scoring=<span class="string">'neg_mean_squared_error'</span>)</span><br><span class="line">    clf.fit(data, label)</span><br><span class="line">    best_esitmator=clf.best_estimator_</span><br></pre></td></tr></table></figure>
+<p>除此之外，也能可就一个参数进行遍历，画出精度折线图。</p>
+<p>提交后，RF+onehotencoding误差为<strong>0.14146</strong>；RF+labelencoding误差为<strong>0.14292</strong>（看起来反而独热编码好点）</p>
+<h3 id="Ridge"><a href="#Ridge" class="headerlink" title="Ridge"></a>Ridge</h3><p>再试一下其他模型，比如Rigde岭回归<br>同样进行调参，提交后，误差为<strong>0.13290</strong>（labelencoding）</p>
+<h3 id="Stacking"><a href="#Stacking" class="headerlink" title="Stacking"></a>Stacking</h3><p>Stacking的概念具体<a href="https://blog.csdn.net/aliceyangxi1987/article/details/74857294" target="_blank" rel="noopener">如此</a>，建议结合下面的图片/代码和链接内的文字，有助于理解（除此之外，还有Bagging、Boosting和Blending等<a href="https://zhuanlan.zhihu.com/p/25836678" target="_blank" rel="noopener">ensemble方法</a>）</p>
+<p>这里使用两层Stacking举例说明一下：<br>第一层两个学习器分别为RandomForest和Rigde，<br>第二层的学习器为LinearRegression。</p>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/RF_L1.png">
+<img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/Ridge_L1.png">
+<img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/L2.png">
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_oof</span><span class="params">(clf,traindata,trainlabel,testdata,kf)</span>:</span></span><br><span class="line">    oof_train=np.zeros((traindata.shape[<span class="number">0</span>],))</span><br><span class="line">    oof_test=np.zeros((testdata.shape[<span class="number">0</span>],))</span><br><span class="line">    oof_test_tmp=np.zeros((<span class="number">5</span>,testdata.shape[<span class="number">0</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i,(train_index,test_index) <span class="keyword">in</span> enumerate(kf.split(traindata)):</span><br><span class="line">        x_train=traindata.iloc[train_index,:]</span><br><span class="line">        y_train=trainlabel.iloc[train_index]</span><br><span class="line">        x_test=traindata.iloc[test_index,:]</span><br><span class="line"></span><br><span class="line">        clf.fit(x_train,y_train)</span><br><span class="line">        oof_train[test_index]=clf.predict(x_test)</span><br><span class="line">        oof_test_tmp[i,:]=clf.predict(testdata)</span><br><span class="line"></span><br><span class="line">    oof_test=oof_test_tmp.mean(axis=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> oof_train.reshape(<span class="number">-1</span>,<span class="number">1</span>),oof_test.reshape(<span class="number">-1</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>提交，误差为<strong>0.13205</strong>，还是有所提升的。</p>
+<h3 id="Bagging"><a href="#Bagging" class="headerlink" title="Bagging"></a>Bagging</h3><p>由于该问题是回归问题，所以使用Averageing即加权。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">combine</span><span class="params">(traindata,testdata,label)</span>:</span></span><br><span class="line">    clf1 = RandomForestRegressor(n_estimators=<span class="number">300</span>, max_features=<span class="number">.3</span>,oob_score=<span class="keyword">True</span>)</span><br><span class="line">    clf1.fit(traindata,label)</span><br><span class="line">    prediction1=clf1.predict(testdata)</span><br><span class="line"></span><br><span class="line">    clf2 = Ridge(<span class="number">30</span>)</span><br><span class="line">    clf2.fit(traindata,label)</span><br><span class="line">    prediction2=clf2.predict(testdata)</span><br><span class="line"></span><br><span class="line">    test=np.vstack((prediction1,prediction2))</span><br><span class="line">    prediction=test.mean(axis=<span class="number">0</span>)</span><br><span class="line">    save(prediction,<span class="string">'submission_power_RF_Ridge.csv'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>提交，误差为0.12548（onehot encoding）和0.13009（label encoding）</p>
+<p>看来，在这里加权比stacking效果还好（可能因为stacking的第二层有点简陋）</p>
+<hr>
+<h1 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h1><p>这里顺便介绍一下<a href="https://www.jqr.com/article/000251" target="_blank" rel="noopener">jupyter notebook</a>，不错的工具</p>
+<p>前面提到，HousePrice的主要问题在于特征工程，Kaggle上Pedro Marcelino<a href="https://www.kaggle.com/pmarcelino/comprehensive-data-exploration-with-python/notebook" target="_blank" rel="noopener">的一篇文章</a>提供一个不错的处理思路，还是值得学习的。</p>
+<p>这里选择性的记录与分享</p>
+<h2 id="主要流程"><a href="#主要流程" class="headerlink" title="主要流程"></a>主要流程</h2><ol>
+<li>理解问题</li>
+<li>因变量研究</li>
+<li>变量联系</li>
+<li>数据清洗：缺失值、离群点、类别属性</li>
+<li>假设（数据转换）</li>
+</ol>
+<h2 id="预备工作（理解问题）"><a href="#预备工作（理解问题）" class="headerlink" title="预备工作（理解问题）"></a>预备工作（理解问题）</h2><p>建议新建一个电子表格，记录各个属性的名称、类型、变量分割（位置/空间/建筑）、期望（即对房价的影响）和备注。</p>
+<p>列出上述表格之后，我们就能先找准几个重要的属性进行研究（作者选中的是OverallQual、<br>YearBuilt、TotalBsmtSF和GrLivArea）</p>
+<blockquote>
+<p>这里未必需要直接从复杂的表格中找出来，可以结合着下面的热力图挑选</p>
+</blockquote>
+<h2 id="分析目标（因变量房价研究）"><a href="#分析目标（因变量房价研究）" class="headerlink" title="分析目标（因变量房价研究）"></a>分析目标（因变量房价研究）</h2><p>通过<code>describe()</code>查看房价分布情况，再通过<code>sns.distplot(df_train[&#39;SalePrice&#39;]);</code>画出直方图，可以看出并不是一个正态。<br><img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/1.png"></p>
+<h2 id="变量联系"><a href="#变量联系" class="headerlink" title="变量联系"></a>变量联系</h2><h3 id="重要属性与房价的联系"><a href="#重要属性与房价的联系" class="headerlink" title="重要属性与房价的联系"></a>重要属性与房价的联系</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#scatter plot grlivarea/saleprice</span></span><br><span class="line">var = <span class="string">'GrLivArea'</span></span><br><span class="line">data = pd.concat([df_train[<span class="string">'SalePrice'</span>], df_train[var]], axis=<span class="number">1</span>)</span><br><span class="line">data.plot.scatter(x=var, y=<span class="string">'SalePrice'</span>, ylim=(<span class="number">0</span>,<span class="number">800000</span>));</span><br></pre></td></tr></table></figure>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/2.png">
+<p>正相关关系，<br>同上，也可画出TotalBsmtSF的<br><img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/3.png"><br>也是正相关，似乎还能看出指数关系</p>
+<p>以上是数值属性的，下面可以通过box图，看房价与OverallQual这个类比属性的关系<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#box plot overallqual/saleprice</span></span><br><span class="line">var = <span class="string">'OverallQual'</span></span><br><span class="line">data = pd.concat([df_train[<span class="string">'SalePrice'</span>], df_train[var]], axis=<span class="number">1</span>)</span><br><span class="line">f, ax = plt.subplots(figsize=(<span class="number">8</span>, <span class="number">6</span>))</span><br><span class="line">fig = sns.boxplot(x=var, y=<span class="string">"SalePrice"</span>, data=data)</span><br><span class="line">fig.axis(ymin=<span class="number">0</span>, ymax=<span class="number">800000</span>);</span><br></pre></td></tr></table></figure></p>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/4.png">
+<img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/5.png">
+<p>貌似和OverallQual以及yearbuilt正相关</p>
+<h3 id="总体分析"><a href="#总体分析" class="headerlink" title="总体分析"></a>总体分析</h3><h4 id="相关矩阵"><a href="#相关矩阵" class="headerlink" title="相关矩阵"></a>相关矩阵</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#correlation matrix</span></span><br><span class="line">corrmat = df_train.corr()</span><br><span class="line">f, ax = plt.subplots(figsize=(<span class="number">12</span>, <span class="number">9</span>))</span><br><span class="line">sns.heatmap(corrmat, vmax=<span class="number">.8</span>, square=<span class="keyword">True</span>);</span><br></pre></td></tr></table></figure>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/6.png">
+<p>通过这样的一个图，我们能够直观的看出属性的关系</p>
+<p>之后，再从中挑选出几个与房价相关性最大的属性，重新画图<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#saleprice correlation matrix</span></span><br><span class="line">k = <span class="number">10</span> <span class="comment">#number of variables for heatmap</span></span><br><span class="line">cols = corrmat.nlargest(k, <span class="string">'SalePrice'</span>)[<span class="string">'SalePrice'</span>].index</span><br><span class="line">cm = np.corrcoef(df_train[cols].values.T)</span><br><span class="line">sns.set(font_scale=<span class="number">1.25</span>)</span><br><span class="line">hm = sns.heatmap(cm, cbar=<span class="keyword">True</span>, annot=<span class="keyword">True</span>, square=<span class="keyword">True</span>, fmt=<span class="string">'.2f'</span>, annot_kws=&#123;<span class="string">'size'</span>: <span class="number">10</span>&#125;, yticklabels=cols.values, xticklabels=cols.values)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/7.png">
+<p>通过这个，我们可以进行更为细致的研究，如GarageArea和GarageCars是有因果关系的，TotalBsmtSF和1stFlrSF似乎也有相关性、TotRmsAbvGrd和GrLivArea也有相当关系，作者的做法是凡是遇到相关性大的属性，就只保留一个（我们可以尝试保留）</p>
+<h4 id="相关散点图"><a href="#相关散点图" class="headerlink" title="相关散点图"></a>相关散点图</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#scatterplot</span></span><br><span class="line">sns.set()</span><br><span class="line">cols = [<span class="string">'SalePrice'</span>, <span class="string">'OverallQual'</span>, <span class="string">'GrLivArea'</span>, <span class="string">'GarageCars'</span>, <span class="string">'TotalBsmtSF'</span>, <span class="string">'FullBath'</span>, <span class="string">'YearBuilt'</span>]</span><br><span class="line">sns.pairplot(df_train[cols], size = <span class="number">2.5</span>)</span><br><span class="line">plt.show();</span><br></pre></td></tr></table></figure>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/8.png">
+<p>通过上面这个庞大的图，进行你的猜测，验证想法。</p>
+<h2 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h2><h3 id="缺失值处理"><a href="#缺失值处理" class="headerlink" title="缺失值处理"></a>缺失值处理</h3><blockquote>
+<p>作者删去了一大部分有缺失值的属性，接近20种属性，就我的看法其中不少是可以利用起来的。此外，作者没有考虑到train.csv中的NA不全意味着缺失值，也有可能是没有对应的物品，所以谈不了什么物品多大，“有无”也是可以利用的特征（这反映了之前预备工作的重要性，否则很容易将NA这一点遗漏）</p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#missing data</span></span><br><span class="line">total = df_train.isnull().sum().sort_values(ascending=<span class="keyword">False</span>)</span><br><span class="line">percent = (df_train.isnull().sum()/df_train.isnull().count()).sort_values(ascending=<span class="keyword">False</span>)</span><br><span class="line">missing_data = pd.concat([total, percent], axis=<span class="number">1</span>, keys=[<span class="string">'Total'</span>, <span class="string">'Percent'</span>])</span><br><span class="line">missing_data.head(<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+<p>输出各属性的”缺失值比例”，结合相关性，选择性删去属性</p>
+<h3 id="异常值处理"><a href="#异常值处理" class="headerlink" title="异常值处理"></a>异常值处理</h3><p>将训练样本的房价标准化，容易发现个别离群值</p>
+<h2 id="建模准备工作（数据转换）"><a href="#建模准备工作（数据转换）" class="headerlink" title="建模准备工作（数据转换）"></a>建模准备工作（数据转换）</h2><p>使数据符合统计假设</p>
+<ul>
+<li>正态性</li>
+<li>同方差性</li>
+<li>线性</li>
+</ul>
+<p>当数据具备以上特征时，对于部分学习器有利，但并不绝对。</p>
+<h3 id="正态性"><a href="#正态性" class="headerlink" title="正态性"></a>正态性</h3><p>画出房价的直方图，以及P-P图<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#histogram and normal probability plot</span></span><br><span class="line">sns.distplot(df_train[<span class="string">'SalePrice'</span>], fit=norm);</span><br><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(df_train[<span class="string">'SalePrice'</span>], plot=plt)</span><br></pre></td></tr></table></figure></p>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/9.png">
+<p>可以看出，并不符合正态分布。针对这种情况，常用log变换（这一点其实可以从比赛的evaluation的误差计算中看出）</p>
+<p>变换后<br><img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/10.png"></p>
+<p>以此类推，对最开始选定的几个重要属性都进行操作</p>
+<h3 id="同方差性"><a href="#同方差性" class="headerlink" title="同方差性"></a>同方差性</h3><img src="http://pcvtat41q.bkt.clouddn.com/images/Kaggle-3-House-Prices/11.png">
+<p>诸如上图SalePrice和GrLivArea的分布散点图，我们可以粗略认为具备同方差性，返回去看上面的图（未进行log变换前），可以发现是锥子形的。</p>
+<h3 id="类别属性"><a href="#类别属性" class="headerlink" title="类别属性"></a>类别属性</h3><p>原文作者在类别属性上没做太大功夫，直接使用独热编码。</p>
+<blockquote>
+<p>关于上面的修改，在相关性分析上，只着眼于线性关系，包括热力图，事实上，非线性关系也是需要关注的；此外，原文对于属性的删除显得过于随性</p>
+</blockquote>
+<p>基于上述的数据处理后（注意学习器的参数得重新调整），提交后误差为0.12327</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><table>
+<thead>
+<tr>
+<th style="text-align:center">Model</th>
+<th style="text-align:center">RMSE</th>
+<th style="text-align:center">categorical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">RF</td>
+<td style="text-align:center">0.14292</td>
+<td style="text-align:center">label</td>
+</tr>
+<tr>
+<td style="text-align:center">RF</td>
+<td style="text-align:center">0.14146</td>
+<td style="text-align:center">onehot</td>
+</tr>
+<tr>
+<td style="text-align:center">Ridge</td>
+<td style="text-align:center">0.13290</td>
+<td style="text-align:center">label</td>
+</tr>
+<tr>
+<td style="text-align:center">stacking</td>
+<td style="text-align:center">0.13205</td>
+<td style="text-align:center">label</td>
+</tr>
+<tr>
+<td style="text-align:center">bagging</td>
+<td style="text-align:center">0.13009</td>
+<td style="text-align:center">label</td>
+</tr>
+<tr>
+<td style="text-align:center">bagging</td>
+<td style="text-align:center">0.12548</td>
+<td style="text-align:center">onehot</td>
+</tr>
+<tr>
+<td style="text-align:center">bagging_new</td>
+<td style="text-align:center">0.12327</td>
+<td style="text-align:center">onehot</td>
+</tr>
+</tbody>
+</table>
+<p>当遇到棘手问题的时候，保持基模思想；<br>再者，主要思路就是</p>
+<ul>
+<li>问题描述/数据概况</li>
+<li>熟悉属性（基于背景列属性表格）</li>
+<li>分析目标</li>
+<li>变量联系（散点图/热力图辅助）</li>
+<li>数据清洗（离群/缺失）</li>
+<li>建模准备（数据转换）</li>
+<li>融合调参（ensemble和GridSearchCV）</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/Kaggle/" rel="tag"># Kaggle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/06/SVM推导：优化目标函数核函数/" rel="next" title="SVM推导：优化目标函数/核函数">
+                <i class="fa fa-chevron-left"></i> SVM推导：优化目标函数/核函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/11/数据挖掘导论笔记-3-分类-其他技术/" rel="prev" title="数据挖掘导论笔记(3): 分类-其他技术">
+                数据挖掘导论笔记(3): 分类-其他技术 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Nick" />
+            
+              <p class="site-author-name" itemprop="name">Nick</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/nick-stu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:chenhj183@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Base-Model"><span class="nav-number">1.</span> <span class="nav-text">Base Model</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题描述"><span class="nav-number">1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据概况"><span class="nav-number">1.2.</span> <span class="nav-text">数据概况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺失值"><span class="nav-number">1.3.</span> <span class="nav-text">缺失值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Categorical-Variables处理"><span class="nav-number">1.4.</span> <span class="nav-text">Categorical Variables处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建模调参"><span class="nav-number">1.5.</span> <span class="nav-text">建模调参</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RandomForest"><span class="nav-number">1.5.1.</span> <span class="nav-text">RandomForest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ridge"><span class="nav-number">1.5.2.</span> <span class="nav-text">Ridge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stacking"><span class="nav-number">1.5.3.</span> <span class="nav-text">Stacking</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bagging"><span class="nav-number">1.5.4.</span> <span class="nav-text">Bagging</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改"><span class="nav-number">2.</span> <span class="nav-text">修改</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要流程"><span class="nav-number">2.1.</span> <span class="nav-text">主要流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预备工作（理解问题）"><span class="nav-number">2.2.</span> <span class="nav-text">预备工作（理解问题）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析目标（因变量房价研究）"><span class="nav-number">2.3.</span> <span class="nav-text">分析目标（因变量房价研究）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量联系"><span class="nav-number">2.4.</span> <span class="nav-text">变量联系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重要属性与房价的联系"><span class="nav-number">2.4.1.</span> <span class="nav-text">重要属性与房价的联系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总体分析"><span class="nav-number">2.4.2.</span> <span class="nav-text">总体分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相关矩阵"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">相关矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关散点图"><span class="nav-number">2.4.2.2.</span> <span class="nav-text">相关散点图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据清洗"><span class="nav-number">2.5.</span> <span class="nav-text">数据清洗</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺失值处理"><span class="nav-number">2.5.1.</span> <span class="nav-text">缺失值处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常值处理"><span class="nav-number">2.5.2.</span> <span class="nav-text">异常值处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建模准备工作（数据转换）"><span class="nav-number">2.6.</span> <span class="nav-text">建模准备工作（数据转换）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#正态性"><span class="nav-number">2.6.1.</span> <span class="nav-text">正态性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同方差性"><span class="nav-number">2.6.2.</span> <span class="nav-text">同方差性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类别属性"><span class="nav-number">2.6.3.</span> <span class="nav-text">类别属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nick</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

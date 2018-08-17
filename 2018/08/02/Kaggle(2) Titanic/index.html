@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘,Python,机器学习,Kaggle," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="分享两篇不错的文章给第一次入门的小伙伴Kaggle入门介绍Kaggle入门指南    初版：总体流程：  数据清洗 数据预处理 训练模型及分类  数据清洗文件通过read_csv读入成为dataFrame对象（dataFrame的切片）首先，我们要删除冗余的属性，分析数据的属性可以明显观察到Name,PassengerId,Ticket,Cabin属性对于我们分类没有用处，所以删去12345678">
+<meta name="keywords" content="数据挖掘,Python,机器学习,Kaggle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kaggle(2): Titanic">
+<meta property="og:url" content="http://yoursite.com/2018/08/02/Kaggle(2) Titanic/index.html">
+<meta property="og:site_name" content="Nick&#39;s Blog">
+<meta property="og:description" content="分享两篇不错的文章给第一次入门的小伙伴Kaggle入门介绍Kaggle入门指南    初版：总体流程：  数据清洗 数据预处理 训练模型及分类  数据清洗文件通过read_csv读入成为dataFrame对象（dataFrame的切片）首先，我们要删除冗余的属性，分析数据的属性可以明显观察到Name,PassengerId,Ticket,Cabin属性对于我们分类没有用处，所以删去12345678">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/11/1.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/11/3.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/11/4.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/11/5.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/11/6.png">
+<meta property="og:updated_time" content="2018-08-17T08:08:31.112Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kaggle(2): Titanic">
+<meta name="twitter:description" content="分享两篇不错的文章给第一次入门的小伙伴Kaggle入门介绍Kaggle入门指南    初版：总体流程：  数据清洗 数据预处理 训练模型及分类  数据清洗文件通过read_csv读入成为dataFrame对象（dataFrame的切片）首先，我们要删除冗余的属性，分析数据的属性可以明显观察到Name,PassengerId,Ticket,Cabin属性对于我们分类没有用处，所以删去12345678">
+<meta name="twitter:image" content="http://pcvtat41q.bkt.clouddn.com/images/11/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/02/Kaggle(2) Titanic/"/>
+
+
+
+
+
+  <title>Kaggle(2): Titanic | Nick's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?54a703726cc3b37647f2c63e92dec5b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/02/Kaggle(2) Titanic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nick">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kaggle(2): Titanic</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-02T00:00:00+08:00">
+                2018-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>分享两篇不错的文章给第一次入门的小伙伴<br><a href="https://zhuanlan.zhihu.com/p/25686876" target="_blank" rel="noopener">Kaggle入门介绍</a><br><a href="https://zhuanlan.zhihu.com/p/25742261" target="_blank" rel="noopener">Kaggle入门指南</a>  </p>
+<hr>
+<h1 id="初版："><a href="#初版：" class="headerlink" title="初版："></a>初版：</h1><p>总体流程：</p>
+<ol>
+<li>数据清洗</li>
+<li>数据预处理</li>
+<li>训练模型及分类</li>
+</ol>
+<h2 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h2><p>文件通过read_csv读入成为dataFrame对象（<a href="https://blog.csdn.net/qiao8756/article/details/80598849" target="_blank" rel="noopener">dataFrame的切片</a>）<br>首先，我们要删除冗余的属性，分析数据的属性<br><img src="http://pcvtat41q.bkt.clouddn.com/images/11/1.png"><br>可以明显观察到Name,PassengerId,Ticket,Cabin属性对于我们分类没有用处，所以删去<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># loadData</span></span><br><span class="line">data=pd.read_csv(<span class="string">'train.csv'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看缺省值情况</span></span><br><span class="line"><span class="comment"># print(data.info())</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除冗余属性</span></span><br><span class="line"><span class="keyword">del</span> data[<span class="string">'Name'</span>]</span><br><span class="line"><span class="keyword">del</span> data[<span class="string">'Ticket'</span>]</span><br><span class="line"><span class="keyword">del</span> data[<span class="string">'Cabin'</span>]</span><br><span class="line"><span class="keyword">del</span> data[<span class="string">'PassengerId'</span>]</span><br></pre></td></tr></table></figure></p>
+<h2 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h2><h3 id="缺省值处理"><a href="#缺省值处理" class="headerlink" title="缺省值处理"></a>缺省值处理</h3><p>可以通过data.info()查看缺省的情况，以下是train.csv的情况，可以发现Age和Embarked属性都存在小部分缺省值，而Cabin缺省值比例接近80%，即便前面没有删去该属性，在这一步的时候也应该删去。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;  </span><br><span class="line">RangeIndex: 891 entries, 0 to 890  </span><br><span class="line">Data columns (total 12 columns):</span><br><span class="line">PassengerId    891 non-null int64</span><br><span class="line">Survived       891 non-null int64</span><br><span class="line">Pclass         891 non-null int64</span><br><span class="line">Name           891 non-null object</span><br><span class="line">Sex            891 non-null object</span><br><span class="line">Age            714 non-null float64</span><br><span class="line">SibSp          891 non-null int64</span><br><span class="line">Parch          891 non-null int64</span><br><span class="line">Ticket         891 non-null object</span><br><span class="line">Fare           891 non-null float64</span><br><span class="line">Cabin          204 non-null object</span><br><span class="line">Embarked       889 non-null object</span><br><span class="line">dtypes: float64(2), int64(5), object(5)</span><br><span class="line">memory usage: 83.6+ KB</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.zhihu.com/question/26639110" target="_blank" rel="noopener">机器学习如何处理缺省值</a><br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 填充缺省值</span></span><br><span class="line">mean=int(trainData.mean()[<span class="string">'Age'</span>])</span><br><span class="line">meanFare=trainData.mean()[<span class="string">'Fare'</span>]</span><br><span class="line">mode=EmbarkedMode(trainData[<span class="string">'Embarked'</span>])</span><br><span class="line"></span><br><span class="line">trainData[<span class="string">'Fare'</span>] = trainData[<span class="string">'Fare'</span>].fillna(meanFare)</span><br><span class="line">trainData[<span class="string">'Age'</span>] = trainData[<span class="string">'Age'</span>].fillna(mean)</span><br><span class="line">trainData[<span class="string">'Embarked'</span>] = trainData[<span class="string">'Embarked'</span>].fillna(mode)</span><br><span class="line"></span><br><span class="line">testData[<span class="string">'Fare'</span>] = testData[<span class="string">'Fare'</span>].fillna(meanFare)</span><br><span class="line">testData[<span class="string">'Age'</span>] = testData[<span class="string">'Age'</span>].fillna(mean)</span><br><span class="line">testData[<span class="string">'Embarked'</span>] = testData[<span class="string">'Embarked'</span>].fillna(mode)</span><br></pre></td></tr></table></figure></p>
+<h3 id="One-Hot-encoding处理标称属性"><a href="#One-Hot-encoding处理标称属性" class="headerlink" title="One Hot-encoding处理标称属性"></a>One Hot-encoding处理标称属性</h3><p>诸如Sex、Embarked属性，因为是字符串，且并无大小联系。所以采用独热编码，而非数值映射。</p>
+<blockquote>
+<p>参考链接：<br><a href="https://blog.csdn.net/HeatDeath/article/details/78051218" target="_blank" rel="noopener">python One-hot coding 独热编码</a><br><a href="https://blog.csdn.net/pipisorry/article/details/61193868" target="_blank" rel="noopener">One-Hot Encoding</a></p>
+</blockquote>
+<p>python使用<code>get_dummies</code>即可</p>
+<h2 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h2><p>选择的算法是逻辑回归</p>
+<blockquote>
+<p>参考链接：<br><a href="https://zhuanlan.zhihu.com/p/37364327" target="_blank" rel="noopener">线性回归简单例子</a><br><a href="https://zhuanlan.zhihu.com/p/37779484" target="_blank" rel="noopener">逻辑回归简单例子</a><br><a href="https://www.cnblogs.com/babers/p/6727933.html" target="_blank" rel="noopener">线性回归算法</a><br><a href="https://www.cnblogs.com/babers/p/6817317.html" target="_blank" rel="noopener">逻辑回归算法</a>  </p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"></span><br><span class="line"><span class="comment"># build model</span></span><br><span class="line">model=LogisticRegression()</span><br><span class="line"><span class="comment"># train model</span></span><br><span class="line">model.fit(trainData,trainLabel)</span><br><span class="line">accuracy=model.score(testData,testLabel)</span><br></pre></td></tr></table></figure>
+<p>先选用了KFold（<a href="https://www.davex.pw/2017/09/17/Cross-Validation/" target="_blank" rel="noopener">交叉验证与网格搜索算法</a>）对train.csv的数据进行划分并测试，求平均得出accuracy.<br><a href="https://blog.csdn.net/Dream_angel_Z/article/details/47048285" target="_blank" rel="noopener">sklearn库的Cross Validation</a><br>最后观察accuracy情况不错，能够达到79%，将train.csv作为训练样本，test.csv作为测试样本开始正式的分类，最后提交，accuracy为75%.</p>
+<hr>
+<h1 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h1><blockquote>
+<p><strong>注：</strong>修改是基于这两篇博客。<a href="https://blog.csdn.net/han_xiaoyang/article/details/49797143" target="_blank" rel="noopener">前者</a>基于逻辑回归，<a href="https://zhuanlan.zhihu.com/p/28586467" target="_blank" rel="noopener">后者</a>虽然基于随机森林，但思路同样值得学习<br>下面只阐述从博客中学到的知识点，整体流程请点击链接查看原文</p>
+</blockquote>
+<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><h3 id="观察数据分布情况"><a href="#观察数据分布情况" class="headerlink" title="观察数据分布情况"></a>观察数据分布情况</h3><p>数值型<br><code>data_train.describe()</code></p>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/11/3.png">
+<p>离散型<br><code>data_train.describe(include=[np.object])</code></p>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/11/4.png">
+<p>能够了解到最后获救人数的情况、乘客年龄分布、不同等级船舱人数情况、票价情况、性别分布等等一些信息</p>
+<h3 id="探究不同属性与Survived的关联"><a href="#探究不同属性与Survived的关联" class="headerlink" title="探究不同属性与Survived的关联"></a>探究不同属性与Survived的关联</h3><p>可以得出：Pclass越小，即上等舱的人容易获救；女生获救概率大；Embarked中C的获救概率较大；婴儿获救率大；票价越高存活率越大等等</p>
+<p>此外，虽然子女或兄弟姐妹个数虽然从概率分布上看与Survived没有明显关联，但是后期可以合并这两特征构造一个诸如familySize的特征（这个猜测是合理的，也确实将看起来没有的属性利用起来了，这也算得上一种DataMining的嗅觉了，不过还是得通过统计获救概率来看看是否有明显区分，基于特征计算获救概率往往是一种不错的判断特征有用与否的简便方法）</p>
+<p>以上，除了可以通过数字表示，还能通过图的形式表现出来(matplotlib,seaborn)，</p>
+<h2 id="特征处理"><a href="#特征处理" class="headerlink" title="特征处理"></a><strong>特征处理</strong></h2><h3 id="标称-离散属性"><a href="#标称-离散属性" class="headerlink" title="标称/离散属性"></a>标称/离散属性</h3><p>大多做独热编码</p>
+<h3 id="缺省值处理-1"><a href="#缺省值处理-1" class="headerlink" title="缺省值处理"></a>缺省值处理</h3><h4 id="Cabin"><a href="#Cabin" class="headerlink" title="Cabin"></a>Cabin</h4><p>不同于我之前的做法，这两篇博客都没有因为缺失值过多而直接丢弃Cabin属性，而是去观察有Cabin值和无Cabin值的获救概率情况，发现有Cabin值的获救概率大，那么之后可以将Cabin属性转化为“有/无”（经过转化，即便是缺失值过多的属性也被利用起来了）</p>
+<h4 id="Name"><a href="#Name" class="headerlink" title="Name"></a>Name</h4><p>Name属性在这里也被利用起来了，通过提取名字中诸如“Lady、Countess、Master、Capt”等的有实际意义的字符串，统计Survived概率，发现Miss、Mrs、Master存活概率都较高，这也是一个不错的特征</p>
+<h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><p>Age缺失较多，可以通过随机森林预测、计算对应船舱年龄中位数等方法填充。<br>这里也可以考虑将年龄分段处理，</p>
+<blockquote>
+<p>通过统计特定属性上的获救概率分布情况，是一种简洁判别属性是否有效的方法</p>
+</blockquote>
+<p>诸如上面，逐个分析属性如何处理</p>
+<h3 id="特征缩放（feature-scaling）"><a href="#特征缩放（feature-scaling）" class="headerlink" title="特征缩放（feature scaling）"></a>特征缩放（feature scaling）</h3><p>注意属性之间的数值范围，如果有些属性值域为[-1,1]，而有些为[0,100]，有时候对于模型的训练是相当不利的，所以要做scaling（可仅针对一个属性）或者标准化，归一化等</p>
+<h2 id="训练模型-1"><a href="#训练模型-1" class="headerlink" title="训练模型"></a>训练模型</h2><p>可以各种类型的都跑一遍，再调参</p>
+<h2 id="模型分析及改进"><a href="#模型分析及改进" class="headerlink" title="模型分析及改进"></a>模型分析及改进</h2><p>可以通过查看训练好的模型的参数分析<br><code>pd.DataFrame({&quot;columns&quot;:list(train_df.columns)[1:], &quot;coef&quot;:list(clf.coef_.T)})</code><br>或者基于特征处理作出假设，类似于将年龄分段离散化为类别属性、利用Cabin中的数值和字母</p>
+<h3 id="Learning-curves"><a href="#Learning-curves" class="headerlink" title="Learning curves"></a>Learning curves</h3><p>过拟合/欠拟合 分析，判断我们现有模型处于哪种状态，便于我们作出调整，比如欠拟合的话，通常需要更多的feature  </p>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/11/5.png">
+<h2 id="模型融合-Model-ensemble"><a href="#模型融合-Model-ensemble" class="headerlink" title="模型融合(Model ensemble)"></a>模型融合(Model ensemble)</h2><p>意思是通过多个模型去分类，可以有两种方式，一种是同种算法不同训练样本，一种是不同算法相同训练样本（后者更常见）  </p>
+<hr>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/11/6.png">
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p>数据预处理时，要<strong>看到问题的背景</strong>，才能做出合理的处理。要更多地看到属性的分布以及与结果的联系，同时对于属性类型的转化往往也会带来出乎意料的效果</p>
+<p>做了这道题才开始体会到Data Mining不同于iot的地方，iot的机器学习大都局限于信号，属性值全为数值型，在数据预处理方面较DataMining容易，模型选择上局限性也较大。</p>
+<p><strong>完善后的流程：</strong></p>
+<ol>
+<li>数据概况</li>
+<li>数据分析（属性分布、属性与结果关联）</li>
+<li>特征处理（关注缺省值）</li>
+<li>训练模型</li>
+<li>模型分析与改进</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/Kaggle/" rel="tag"># Kaggle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/30/数据挖掘导论笔记(1) 数据与探索数据/" rel="next" title="数据挖掘导论笔记(1): 数据与探索数据">
+                <i class="fa fa-chevron-left"></i> 数据挖掘导论笔记(1): 数据与探索数据
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/03/数据挖掘导论笔记(2) 分类/" rel="prev" title="数据挖掘导论笔记(2): 分类">
+                数据挖掘导论笔记(2): 分类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Nick" />
+            
+              <p class="site-author-name" itemprop="name">Nick</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/nick-stu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:chenhj183@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#初版："><span class="nav-number">1.</span> <span class="nav-text">初版：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据清洗"><span class="nav-number">1.1.</span> <span class="nav-text">数据清洗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据预处理"><span class="nav-number">1.2.</span> <span class="nav-text">数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺省值处理"><span class="nav-number">1.2.1.</span> <span class="nav-text">缺省值处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#One-Hot-encoding处理标称属性"><span class="nav-number">1.2.2.</span> <span class="nav-text">One Hot-encoding处理标称属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练模型"><span class="nav-number">1.3.</span> <span class="nav-text">训练模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改"><span class="nav-number">2.</span> <span class="nav-text">修改</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据分析"><span class="nav-number">2.1.</span> <span class="nav-text">数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#观察数据分布情况"><span class="nav-number">2.1.1.</span> <span class="nav-text">观察数据分布情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#探究不同属性与Survived的关联"><span class="nav-number">2.1.2.</span> <span class="nav-text">探究不同属性与Survived的关联</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征处理"><span class="nav-number">2.2.</span> <span class="nav-text">特征处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标称-离散属性"><span class="nav-number">2.2.1.</span> <span class="nav-text">标称/离散属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺省值处理-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">缺省值处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cabin"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">Cabin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Name"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">Name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Age"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">Age</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征缩放（feature-scaling）"><span class="nav-number">2.2.3.</span> <span class="nav-text">特征缩放（feature scaling）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练模型-1"><span class="nav-number">2.3.</span> <span class="nav-text">训练模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型分析及改进"><span class="nav-number">2.4.</span> <span class="nav-text">模型分析及改进</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Learning-curves"><span class="nav-number">2.4.1.</span> <span class="nav-text">Learning curves</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型融合-Model-ensemble"><span class="nav-number">2.5.</span> <span class="nav-text">模型融合(Model ensemble)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.6.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nick</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘,机器学习,读书笔记," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基于规则的分类器主要涉及离散数学的相关知识，基础部件为 r： 前提 –&amp;gt; 结论。模型由规则集定义，规则集包含多个r，每个r中的前提不一定只有一个。如果一条记录x的属性和规则r的前件匹配，则称r覆盖x，r被激发。分类规则的质量用覆盖率(coverage)（触发规则r的记录数与总记录数的比例）和准确率(accuracy)（触发规则并得出正确结果的记录数与触发规则的记录数的比例）来度量 基于规则的">
+<meta name="keywords" content="数据挖掘,机器学习,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据挖掘导论笔记(3): 分类-其他技术">
+<meta property="og:url" content="http://yoursite.com/2018/08/11/数据挖掘导论笔记-3-分类-其他技术/index.html">
+<meta property="og:site_name" content="Nick&#39;s Blog">
+<meta property="og:description" content="基于规则的分类器主要涉及离散数学的相关知识，基础部件为 r： 前提 –&amp;gt; 结论。模型由规则集定义，规则集包含多个r，每个r中的前提不一定只有一个。如果一条记录x的属性和规则r的前件匹配，则称r覆盖x，r被激发。分类规则的质量用覆盖率(coverage)（触发规则r的记录数与总记录数的比例）和准确率(accuracy)（触发规则并得出正确结果的记录数与触发规则的记录数的比例）来度量 基于规则的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/1.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/2.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/3.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/4.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/5.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/6.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/7.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/8.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/9.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/10.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/11.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/12.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/13.jpg">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/13.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/14.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/15.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/16.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/17.png">
+<meta property="og:updated_time" content="2018-08-17T08:08:31.132Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据挖掘导论笔记(3): 分类-其他技术">
+<meta name="twitter:description" content="基于规则的分类器主要涉及离散数学的相关知识，基础部件为 r： 前提 –&amp;gt; 结论。模型由规则集定义，规则集包含多个r，每个r中的前提不一定只有一个。如果一条记录x的属性和规则r的前件匹配，则称r覆盖x，r被激发。分类规则的质量用覆盖率(coverage)（触发规则r的记录数与总记录数的比例）和准确率(accuracy)（触发规则并得出正确结果的记录数与触发规则的记录数的比例）来度量 基于规则的">
+<meta name="twitter:image" content="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/11/数据挖掘导论笔记-3-分类-其他技术/"/>
+
+
+
+
+
+  <title>数据挖掘导论笔记(3): 分类-其他技术 | Nick's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?54a703726cc3b37647f2c63e92dec5b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/11/数据挖掘导论笔记-3-分类-其他技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nick">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据挖掘导论笔记(3): 分类-其他技术</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-11T19:06:58+08:00">
+                2018-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="基于规则的分类器"><a href="#基于规则的分类器" class="headerlink" title="基于规则的分类器"></a>基于规则的分类器</h1><p>主要涉及离散数学的相关知识，基础部件为 r： 前提 –&gt; 结论。<br>模型由规则集定义，规则集包含多个r，每个r中的前提不一定只有一个。<br>如果一条记录x的属性和规则r的前件匹配，则称r覆盖x，r被激发。<br>分类规则的质量用覆盖率(coverage)（触发规则r的记录数与总记录数的比例）和准确率(accuracy)（触发规则并得出正确结果的记录数与触发规则的记录数的比例）来度量</p>
+<h2 id="基于规则的分类器的工作原理"><a href="#基于规则的分类器的工作原理" class="headerlink" title="基于规则的分类器的工作原理"></a>基于规则的分类器的工作原理</h2><p>两个重要性质</p>
+<ol>
+<li>互斥规则</li>
+</ol>
+<p>若不存在一条记录同时触发两条规则，则规则集R中的规则是互斥的。</p>
+<ol start="2">
+<li>穷举规则</li>
+</ol>
+<p>对于任何记录，都有规则对其覆盖，则称规则集具有穷举覆盖</p>
+<p>但不少模型并不满足这两个性质，特别是对于第二条，该如何处理冲突？</p>
+<ol>
+<li>有序规则（给规则制定优先级，优先级的定义有多种方法）</li>
+<li>无序规则（票多者胜，这种方法不易受不当规则影响，建立模型开销小，但检验时开销大，因为需要全部比对）</li>
+</ol>
+<p>本节剩余部分重点讨论使用有序规则的基于规则的分类器</p>
+<h2 id="规则的排序方案"><a href="#规则的排序方案" class="headerlink" title="规则的排序方案"></a>规则的排序方案</h2><h3 id="基于规则的排序方案"><a href="#基于规则的排序方案" class="headerlink" title="基于规则的排序方案"></a>基于规则的排序方案</h3><p>根据某种定义对规则排序，但越后的规则越难解释，因为当比对到最后的规则时，由于前面的不满足，在这里会给出不少附加条件</p>
+<h3 id="基于类的排序方案"><a href="#基于类的排序方案" class="headerlink" title="基于类的排序方案"></a>基于类的排序方案</h3><p>顾名思义，结果同类的规则放在一起，缺点是排在前面的类中的规则质量较差的话对后面的影响很大<br>本节剩余部分主要集中在基于类的排序</p>
+<h2 id="如何建立基于规则的分类器"><a href="#如何建立基于规则的分类器" class="headerlink" title="如何建立基于规则的分类器"></a>如何建立基于规则的分类器</h2><p>建立基于规则的分类器就得提取一组规则来识别数据集的属性和类标号之间的关键联系，方法有两种：直接方法和间接方法</p>
+<h2 id="规则提取的直接方法"><a href="#规则提取的直接方法" class="headerlink" title="规则提取的直接方法"></a>规则提取的直接方法</h2><p>顺序覆盖：<br>按序从数据提取规则（顺序依照的是类），提取覆盖当前类训练记录集的最佳规则（覆盖大多数当前类，覆盖极少数反例），将新规则追加至决策表（即有序的规则集）尾部，并将训练样本中被覆盖的删去，如此重复，直至满足终止条件，再进行下一个类。</p>
+<h3 id="Learn-One-Rule函数"><a href="#Learn-One-Rule函数" class="headerlink" title="Learn-One-Rule函数"></a>Learn-One-Rule函数</h3><p>函数目标就是提取出上述的规则，为了减少计算开销，采取的是贪心方式的增长规则</p>
+<h4 id="规则增长策略"><a href="#规则增长策略" class="headerlink" title="规则增长策略"></a>规则增长策略</h4><p>两种思路：</p>
+<ol>
+<li>从一般到特殊。以目标类为导向，一开始规则的前件为空集，逐渐加入新的合取项提高规则质量，直到满足终止条件（如加入的合取项已不能提高规则质量）</li>
+<li>从特殊到一般。随机选取为目标类的一个记录，作为种子。则其属性则为规则前件，逐渐提取前件中的合取项，以泛化规则，直至满足终止条件（如何开始覆盖反例）</li>
+</ol>
+<h4 id="规则评估"><a href="#规则评估" class="headerlink" title="规则评估"></a>规则评估</h4><p>上诉规则的增长过程，如何知道该添加（删去）哪个合取项？</p>
+<h4 id="规则剪枝"><a href="#规则剪枝" class="headerlink" title="规则剪枝"></a>规则剪枝</h4><p>剪枝改善泛化误差</p>
+<h3 id="顺序覆盖基本原理"><a href="#顺序覆盖基本原理" class="headerlink" title="顺序覆盖基本原理"></a>顺序覆盖基本原理</h3><p>前面顺序覆盖提到提取一条规则后要把被覆盖的记录删去，这是因为若不删去，后面可能会提取出和前一条类似的规则，同时在实际测试时是按顺序比对的，那么训练过程也应如此，提取后即将记录删去</p>
+<h3 id="RIPPER算法"><a href="#RIPPER算法" class="headerlink" title="RIPPER算法"></a>RIPPER算法</h3><p>RIPPER是一种广泛使用的规则归纳算法（直接方法），以多数类为默认类，按类的频率对类进行排序，频率低的最先提取规则。</p>
+<blockquote>
+<p>感兴趣的可以详细看教材和相关资料</p>
+</blockquote>
+<h2 id="规则提取的间接方法"><a href="#规则提取的间接方法" class="headerlink" title="规则提取的间接方法"></a>规则提取的间接方法</h2><p>间接方法是从其他分类模型中提取分类规则，在介绍基于规则的分类器时，就能感觉到这东西和决策树有点类似。事实上，确实能通过决策树生成规则集（生成的一定是互斥的，但进行简化后可以不是互斥的），诸如C4.5规则算法。</p>
+<h2 id="基于规则的分类器的特征"><a href="#基于规则的分类器的特征" class="headerlink" title="基于规则的分类器的特征"></a>基于规则的分类器的特征</h2><ul>
+<li>表达能力几乎等价于决策树，有的时候可以构造更加复杂的决策边界（规则没有互斥性的时候）</li>
+<li>常用于易于解释的描述性模型，诸如本节用到的动物种类判别</li>
+<li>基于类的规则定类方法适于处理类分布不平衡的数据集</li>
+</ul>
+<h1 id="最近邻分类器"><a href="#最近邻分类器" class="headerlink" title="最近邻分类器"></a>最近邻分类器</h1><p>首先了解两种不同的学习方法：积极学习方法（诸如决策树和基于规则的分类器，即先对训练数据建模）；消极学习方法（如Rote分类器和最近邻分类器，等到分类测试样例才对训练数据建模）</p>
+<p>基础的最近邻分类器有knn，注意邻近性度量和k值（太小容易过拟合，太大容易误分类）的选取。<br><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/1.png"></p>
+<blockquote>
+<p>knn中的多数表决，每个近邻的权重都一样，我们可以按距离进行加权，这样就成了距离加权表决</p>
+</blockquote>
+<p>特点：</p>
+<ol>
+<li>基于实例的学习，不需要维护抽象的模型</li>
+<li>测试过程开销大，而积极学习方法是建立模型开销大，测试过程快</li>
+<li>基于局部信息（不同于决策树是拟合全局），所以对噪音敏感</li>
+<li>决策边界灵活</li>
+<li>适当的邻近性度量和<strong>数据预处理</strong>很重要</li>
+</ol>
+<h1 id="贝叶斯分类器"><a href="#贝叶斯分类器" class="headerlink" title="贝叶斯分类器"></a>贝叶斯分类器</h1><p>很多应用中，属性集与类变量之间的关系是不确定的，不能简单根据属性是否相同来得出结果。由此，我们对属性集和类变量的概率关系建模，企图建立一种符合更抽象映射关系的模型。首先，基础是贝叶斯定理(Bayes theorem)</p>
+<h2 id="贝叶斯定理"><a href="#贝叶斯定理" class="headerlink" title="贝叶斯定理"></a>贝叶斯定理</h2><p>P(X,Y)=P(Y|X)<em>P(X)=P(X|Y)</em>P(Y)得出：$$ P(Y|X)=\ \frac{P(X|Y)P(Y)}{P(X)} $$</p>
+<h2 id="贝叶斯定理在分类中的应用"><a href="#贝叶斯定理在分类中的应用" class="headerlink" title="贝叶斯定理在分类中的应用"></a>贝叶斯定理在分类中的应用</h2><p>设X为<strong>属性集</strong>，Y为类变量，那么P(Y|X)就能捕捉到它们的联系了，这个条件概率成为Y的后验概率(posteriot probability)，P(Y)称为Y的先验概率(prior probability).  </p>
+<blockquote>
+<p>第一次看可能会不明白先验和后验，附上关于贝叶斯推断一篇<a href="http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_one.html" target="_blank" rel="noopener">很好的文章</a>，把P(A)称为”先验概率”，即在B事件发生<strong>之前</strong>，我们对A事件概率的一个<strong>判断</strong>。P(A|B)称为”后验概率”），即在B事件发生<strong>之后</strong>，我们对A事件概率的<strong>重新评估</strong>。上面的式子可转化为<br>$$ P(Y|X)=P(Y)\frac{P(X|Y)}{P(X)} $$<br>$\frac{P(X|Y)}{P(X)} $称为”可能性函数”（Likelyhood），这是一个<strong>调整因子</strong>，使得预估概率更接近真实概率。<br>所以，条件概率可以理解成下面的式子：$$后验概率　＝　先验概率 ｘ 调整因子$$</p>
+</blockquote>
+<p>对每一种X和Y的组合，找出最大的后验概率P(Y|X)就是我们的目的。而根据上面的式子结合P(X)和P(Y)，可转为求P(X|Y)，成为类条件概率。估计类条件概率的这里介绍两种方法：朴素贝叶斯分类器和贝叶斯信念网络。</p>
+<blockquote>
+<p>关于为何要转化求的目标，我认为是求P(Y|X)要求符合属性集X且为Y的样本，首先符合属性集X这一要求可能就过滤掉一大部分训练样本了，也就是说如此求法对样本数量要求大，不然求出来不准确；至于倒过来之后，虽说事实上此类问题还是存在，不过通过下面的几种算法能够解决。这是我粗略的理解，欢迎指教。</p>
+</blockquote>
+<h2 id="朴素贝叶斯分类器"><a href="#朴素贝叶斯分类器" class="headerlink" title="朴素贝叶斯分类器"></a>朴素贝叶斯分类器</h2><h3 id="条件独立性"><a href="#条件独立性" class="headerlink" title="条件独立性"></a>条件独立性</h3><p>朴素贝叶斯确立了条件独立性的前提，即属性集之间的属性相互独立。假设X和Y独立，可推导出P(X,Y|Z)=P(X|Z)*P(Y|Z)</p>
+<h3 id="朴素贝叶斯分类器如何工作"><a href="#朴素贝叶斯分类器如何工作" class="headerlink" title="朴素贝叶斯分类器如何工作"></a>朴素贝叶斯分类器如何工作</h3><p>基于条件独立假设，我们就不必计算X的每一个组合的类条件概率，只需计算出每一个$X_{i}$的条件概率。<br><strong>分类测试记录时，分类器对每个类Y计算后验概率：</strong>$$ P(Y|X)=\frac{P(Y)\prod_{i=1}^{d}P(X_{i}|Y)}{P(X)} $$</p>
+<blockquote>
+<p>上面是朴素贝叶斯的达到最终目的的方法</p>
+</blockquote>
+<p>由于对所有的Y，P(X)是固定的，所以只要找出使分子最大的类就够了</p>
+<h3 id="估计连续属性的条件概率"><a href="#估计连续属性的条件概率" class="headerlink" title="估计连续属性的条件概率"></a>估计连续属性的条件概率</h3><p>估计分类属性的条件概率的思路很简单，这里不再描述。<br>有两种方法估计连续属性的类条件概率，第一种是离散化，不过区间的大小需要把握好；另外一种是<br>通过假设变量服从某种概率分布。常用高斯分布，因而对于每个类$y_{i}$，属性$X_{i}$的类条件概率等于：$$ P(X_{i}=x_{i}|Y=y_{i})=\frac{1}{\sqrt{2\pi}\sigma_{ij}}e^{-\frac{(x_{i}-\mu_{ij})^{2}}{2\sigma^{2}_{ij}}} $$<br>上面的参数可以根据对样本的统计得出，这实际上是个概率密度函数，至于为何取特定值的概率为何不为0，在朴素贝叶斯分类器中实际上加了其他操作，所以这里直接用就行了。</p>
+<h3 id="条件概率的-m-估计"><a href="#条件概率的-m-估计" class="headerlink" title="条件概率的 m 估计"></a>条件概率的 m 估计</h3><p>通过类条件概率的方法求出类的后验概率当训练样例小而属性数目又大时显得脆弱，因为只要有又个属性对于一个类不存在样例，那么只要测试样本涉及该属性我们就无法进行分类。</p>
+<p>m估计用于解决此问题<br><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/2.png"></p>
+<h3 id="朴素贝叶斯分类器的特征"><a href="#朴素贝叶斯分类器的特征" class="headerlink" title="朴素贝叶斯分类器的特征"></a>朴素贝叶斯分类器的特征</h3><ul>
+<li>对孤立噪声点健壮，且可处理属性值遗漏问题</li>
+<li>对于无关属性健壮</li>
+<li>相关属性会降低分类器的性能，因为前提是基于条件独立</li>
+</ul>
+<h2 id="贝叶斯误差率"><a href="#贝叶斯误差率" class="headerlink" title="贝叶斯误差率"></a>贝叶斯误差率</h2><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/3.png">
+<p>这是关于由体长推测出鳄鱼/美洲鳄鱼的分类问题，结合前面的对连续属性的类条件概率的估计，应该能明白图片的含义。（题干前提是两类的先验概率相同）</p>
+<p>虚线为他们的决策边界，明显可以知道误差率为相交的面积。</p>
+<h2 id="贝叶斯信念网络-Bayesian-belief-network，BBN"><a href="#贝叶斯信念网络-Bayesian-belief-network，BBN" class="headerlink" title="贝叶斯信念网络(Bayesian belief network，BBN)"></a>贝叶斯信念网络(Bayesian belief network，BBN)</h2><p>简称贝叶斯网络，不要求所有属性都条件独立</p>
+<h3 id="模型表示"><a href="#模型表示" class="headerlink" title="模型表示"></a>模型表示</h3><p>常用有向无环图(Directed Acyclic Graph, DAG)表示，具备条件独立的原则，即若父母结点已知，则它的条件独立于它的所有非后代结点。<br>每个结点还关联一个概率表（结点X若无父母结点，则表中只含先验概率P(X)；若有父母结点，则表中包含条件概率P(X|Y) ）</p>
+<h3 id="建立模型"><a href="#建立模型" class="headerlink" title="建立模型"></a>建立模型</h3><ol>
+<li>创建网络结构</li>
+<li>估计每个结点的概率表中的值</li>
+</ol>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/4.png">
+<p>上图是构造结构的算法，之后对概率的估计和朴素贝叶斯分离器所用方法大同小异。</p>
+<h3 id="使用BBN进行推理举例"><a href="#使用BBN进行推理举例" class="headerlink" title="使用BBN进行推理举例"></a>使用BBN进行推理举例</h3><p><a href="https://www.zhihu.com/question/28006799/answer/38996563" target="_blank" rel="noopener">贝叶斯网络应用:Chest Clinic</a><br><a href="https://zhuanlan.zhihu.com/p/22802074" target="_blank" rel="noopener">贝叶斯网络与数据挖掘</a></p>
+<blockquote>
+<p>书上关于贝叶斯网络讲得不是特别详细，更多的可以参考 7.5贝叶斯网 ——《机器学习》周志华著</p>
+</blockquote>
+<h1 id="人工神经网络"><a href="#人工神经网络" class="headerlink" title="人工神经网络"></a>人工神经网络</h1><p>可以看一下<a href="https://www.cnblogs.com/heaad/archive/2011/03/07/1976443.html" target="_blank" rel="noopener">这篇文章</a>，讲述神经网络编程入门。</p>
+<h2 id="感知器"><a href="#感知器" class="headerlink" title="感知器"></a>感知器</h2><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/5.png">
+<p>简洁来说，输入结点只传送值，输出结点负责三个动作：<strong>加权和、偏置、激活(根据符号输出1/-1)</strong><br>学习过程就是调整权值参数</p>
+<h3 id="学习感知器模型"><a href="#学习感知器模型" class="headerlink" title="学习感知器模型"></a>学习感知器模型</h3><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/6.png">
+<p>重点在于第七行的权值更新公式，参数$\lambda$为学习率learning rate，更新过程可以描述为旧权值加上正比于预测误差的项。（误差有正负，所以有所谓的提高/降低 正/负输入链的权值）</p>
+<h2 id="多层人工神经网络"><a href="#多层人工神经网络" class="headerlink" title="多层人工神经网络"></a>多层人工神经网络</h2><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/7.png">
+<p>前馈(feed-forward)每一层的结点只和下一层结点相连，感知器相当于单层的前馈神经网络</p>
+<p>我们应该能够察觉到前面基于感知器构造的模型的决策边界只能是线性的，事实上神经元还能使用其他激活函数，使得模型的表达能力更强。<br><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/8.png"></p>
+<p>关于多层ANN，我们是否还能使用上面所说的权值更新公式呢，答案是否定的，因为隐藏结点的真实输出的先验知识是未知的，我们无从计算隐藏结点的误差项。</p>
+<h3 id="学习ANN模型"><a href="#学习ANN模型" class="headerlink" title="学习ANN模型"></a>学习ANN模型</h3><p>目的是最小化误差的平方和:$$E(w)=\frac{1}{2}\sum_{i=1}^N(y_i-\hat{y_i})^2$$<br>当$\hat{y_i}$是参数w的线性函数时，误差曲面大致如下<br><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/9.png"><br>将该函数代入误差函数，很容易可以找到全局最小解</p>
+<p>一旦我们的激活函数选取的是非线性的，那么我们就无法直接推导出最佳权值了，然而非线性的激活函数明显很常用。</p>
+<p>常使用基于梯度下降的贪心算法优化求解过程：$$w_j \leftarrow w_j - \lambda \frac{\partial{E(w)}}{\partial{w_j}}$$<br>权值沿着使总体误差减小的方向增加，不过这种方法可能会陷入局部极小值；且对于隐藏层，计算量大。</p>
+<p>反向传播(back-propagation)能够解决隐藏层权值更新问题，关键在于权值更新时，先更新k+1层，再更新k层，即用后一层的误差估计这层的误差。</p>
+<blockquote>
+<p><a href="http://www.emergentmind.com/neural-network" target="_blank" rel="noopener">学习过程的可视化</a></p>
+</blockquote>
+<h3 id="设计问题"><a href="#设计问题" class="headerlink" title="设计问题"></a>设计问题</h3><ol>
+<li>一个数值输入变量或二元输入变量对应一个输入结点；若输入变量是分类变量，可谓每种分类创建一个结点，也能使用二进制编码创建logk个</li>
+<li>对于二分类问题，一个输出节点；对于k分类<strong>，需要k个输出节点</strong></li>
+<li>网络拓扑结构是难以确认的。一种方法，刚开始使用全连接，随后使用较少的点重复建模；另外一种是删除一些结点，重复模型评价过程</li>
+</ol>
+<p>特征：人工神经网络容易过拟合，训练耗时。</p>
+<h1 id="支持向量机"><a href="#支持向量机" class="headerlink" title="支持向量机"></a>支持向量机</h1><h2 id="最大边缘超平面"><a href="#最大边缘超平面" class="headerlink" title="最大边缘超平面"></a>最大边缘超平面</h2><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/10.png">
+<p>上图可以明显看出B1为最大边缘超平面，边缘越大，泛化误差越好</p>
+<h2 id="线性支持向量机：可分情况"><a href="#线性支持向量机：可分情况" class="headerlink" title="线性支持向量机：可分情况"></a>线性支持向量机：可分情况</h2><p>线性SVM也被称为最大边缘分类器（因为其目的是寻求最大边缘超平面）</p>
+<h3 id="线性决策边界"><a href="#线性决策边界" class="headerlink" title="线性决策边界"></a>线性决策边界</h3><p>一个线性决策边界可以表示为$\bf w\cdot x +b=0$，假设xa和xb都是边界上的点，都满足上述公式，则有$\bf w\cdot(xb-xa)=0$<br>又因为xb-xa是一个平行与决策边界的向量，则可知w的方向是垂直于决策边界的，具体的情况如下：<img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/11.png"></p>
+<h3 id="线性分类器的边缘"><a href="#线性分类器的边缘" class="headerlink" title="线性分类器的边缘"></a>线性分类器的边缘</h3><p>分别找到两类离边界最近的点，如上图，为x1和x2<br>则有$$\bf w\cdot x1 + b=1$$ $$\bf w\cdot x2 + b=-1$$ $$\bf w\cdot (x1 -x2)=2$$ $$\bf ||w|| d=2$$ $$d=2/||w||$$</p>
+<blockquote>
+<p>这两个点叫做支持向量</p>
+</blockquote>
+<h3 id="学习线性SVM模型"><a href="#学习线性SVM模型" class="headerlink" title="学习线性SVM模型"></a>学习线性SVM模型</h3><p>找到一个平面这类工作事实上感知器也能做到，SVM的不同之处在于寻找最大边缘，即最小化目标函数$f(w)=||w||^2/2$</p>
+<p>受限于$y_i(w\cdot x_i+b) \geq1 ，i=1,2,…,N (y_i对应的是类标号，即为1/-1)$</p>
+<p>结合上述条件这是一个凸优化问题，可以通过标准拉格朗日乘子求解。目标函数变为<br><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/12.png"><br>称为该优化问题的拉格朗日函数，$\lambda_i$为拉格朗日乘子</p>
+<blockquote>
+</blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/35805267" target="_blank" rel="noopener">凸优化以及几个基本概念</a><br><a href="https://blog.csdn.net/L70AShC3Q50/article/details/79926876" target="_blank" rel="noopener">新目标函数的来源</a><br>凸集合：满足集合内任意两点的连线也在这个集合里的就是凸集合。凸集合有个有趣的separating性质，以二维空间为例，任意一点y不属于这个凸集合，则一定存在一条直线把这个点和凸集合分开。</p>
+<p>关于SVM过程的推导这里就不展开论述了，可以看我博客另外专门写的文章。</p>
+<h2 id="支持向量机的特征"><a href="#支持向量机的特征" class="headerlink" title="支持向量机的特征"></a>支持向量机的特征</h2><ul>
+<li>SVM学习问题可以表示为凸优化问题，可以找到全局最优解</li>
+<li>训练过程需要提供参数，如核函数类型、代价函数等</li>
+</ul>
+<h1 id="组合方法"><a href="#组合方法" class="headerlink" title="组合方法"></a>组合方法</h1><p>组合(ensemble)：一组基分类器(base classifier)进行测试，结果投票得出（中间可以加权）</p>
+<p>组合分类器的性能优于单个分类器必须满足两个必要条件</p>
+<ol>
+<li>基分类器之间互相独立（事实上，轻微相关也无妨）</li>
+<li>基分类器应当好于随机猜测分类器（意思是误差率不能大于0.5，不然组合分类器反而更差）</li>
+</ol>
+<p>组合方法一般对于不稳定的分类器效果较好（意思是对训练集的微小变化敏感，诸如决策树、基于规则的分类器和人工神经网络）</p>
+<h2 id="构建组合分类器的方法"><a href="#构建组合分类器的方法" class="headerlink" title="构建组合分类器的方法"></a>构建组合分类器的方法</h2><p>构造组合分类器有几种方法：</p>
+<ol>
+<li>通过处理训练数据集：通过抽样得到多个训练集，使用特定学习方法为每个训练集建立分类器。代表方法有装袋与提升</li>
+<li>通过处理输入特征：选择输入特征的子集来形成每个训练集。对于多冗余特征的数据集，这种方法性能非常好。随机森林就是一种处理输入特征的组合方法，它使用决策树作为基分类器。</li>
+<li>通过处理类标号：这种方法适用于类数足够多的情况。通过将类标号随机划分为两个不同子集A和B，把训练问题变换为二类问题。类标号属于A的训练样本分配到类0，类标号属于B的训练样本分配到类1，之后使用这些重新标记的数据训练一个基分类器。重新划分，重新训练一个基分类器。最后得到一组基分类器。遇到一个检验样本时，使用每个基分类器预测，判断为0时，就给所有A中的类加一票，反之加至B中类。如此，最后选出票数最多的类。错误-纠正输出编码方法就是如此</li>
+<li>通过处理学习算法：在同个训练数据集上多次执行算法（参数不同等等）得到不同模型。</li>
+</ol>
+<h2 id="偏倚-方差分解"><a href="#偏倚-方差分解" class="headerlink" title="偏倚-方差分解"></a>偏倚-方差分解</h2><p>一个分类器的期望误差可以分为三部分：偏倚、方差和噪声<br>偏倚和方差可以对应到表达能力，泛化能力。</p>
+<p>我们用这张经典的图说明：<br><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/13.jpg"><br>假设四个靶子代表四种分类器，靶子上一个点就是通过一个训练集训练出来的模型的表现，偏倚代表一个靶子所有点的平均偏离中心的距离，我们可以看到low bias的平均中心都很准；方差代表模型对训练样本的依赖程度，也就是泛化能力，观察low variance上的点，比较集中，意味着这个分类器不会因为训练集的不同而对其最后效果造成太大影响。</p>
+<p>事实上也可以对应到欠拟合和过拟合的概念上，分类器复杂度够大，表达能力够强，只要样本足够广泛，效果会很好，如果样本代表性弱，模型容易将无关的特征也学习进去；分类器复杂度较小，表达能力弱，但泛化能力强，不会过度学习。</p>
+<h2 id="装袋"><a href="#装袋" class="headerlink" title="装袋"></a>装袋</h2><p>又称自助聚类（boot strap aggregating）。提到“自助”一般是与不放回抽样相关。装袋相当于多次使用自助法抽取训练集训练多个基分类器，最后投票多数表决。</p>
+<blockquote>
+<p>这里建议看一下书上这里觉得一个题例，很好的体现出装袋的用处。<br>大致过程是，一个本该使用两层的决策树才能正确分类的数据集。<br>通过装袋组合分类器，每次只训练一个决策树桩（只有一层的树），最后多数表决成功分类所有样本。装袋在这里增强了目标函数的表达能力</p>
+</blockquote>
+<p>装袋通过降低基分类器方差改善了泛化误差，如果基分类器是不稳定的，装袋有助于减低训练集波动带来的误差；如果基分类器是稳定的，那么装袋的意义不大。</p>
+<h2 id="提升"><a href="#提升" class="headerlink" title="提升"></a>提升</h2><p>迭代的改变训练样本分布，聚焦于难分的样本上（通过给样本加权值，每轮进行调整，增加错误分类的样本权值），采用的也是不放回抽样，但是之前没抽到的样本有更大的可能会被抽到（因为训练集里没它，所以误分类可能性较大），提升算法可调整的地方主要在于如何更新权值、如何组合基分类器的预测。</p>
+<h3 id="AdaBoost"><a href="#AdaBoost" class="headerlink" title="AdaBoost"></a>AdaBoost</h3><p>{($x_j,y_j$|j=1,2,……,N)}表示包含N个的训练样本的集合，基分类器$C_i$的错误率决定了它的重要性，$$\varepsilon_i=\frac1N[\sum^N_{j=1}w_iI(C_i(x_j)\neq y_j)]$$</p>
+<p>错误率$\varepsilon$转化为重要性$\alpha$的曲线如下：<br><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/13.png"></p>
+<p>AdaBoost的权值更新（样本的权值）机制又是基于分类器的重要性的，最终预测结果是通过对基分类器的预测加权（这里指的是分类器的重要性）平均得到</p>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/14.png">
+<h1 id="不平衡类问题"><a href="#不平衡类问题" class="headerlink" title="不平衡类问题"></a>不平衡类问题</h1><p>顾名思义，类的实例数量非常不平衡，诸如信用卡诈骗检测，而且往往稀有类<strong>更有价值</strong>。之前提到的准确率以及其他用来指导学习算法需要进行修改。</p>
+<h2 id="可选度量"><a href="#可选度量" class="headerlink" title="可选度量"></a>可选度量</h2><p>一般讲稀有类标为正类<br><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/15.png"></p>
+<p>基于上面的混淆矩阵，有真正率（TPR）/灵敏度（sensitivity）、真负率（TNR）/特指度（specificity）、假正率（FPR）、假负率（FNR）。</p>
+<p>重要的还有召回率（recall）和精度（precision），精度等于预测为正类中真正的正类的比例（对正类要求苛刻表现为高精度，不会误报），召回率为正类被预测对的比例（对正类要求低表现高召回率，不会漏报）</p>
+<p>精度和召回率可以结合为$F_1$度量（为两者调和均值）</p>
+<h2 id="接受者操作特征曲线"><a href="#接受者操作特征曲线" class="headerlink" title="接受者操作特征曲线"></a>接受者操作特征曲线</h2><p>接受者操作特征曲线（receiver operating characteristic, ROC）的y轴是TPR，x轴为FPR，曲线上一点对于一个分类器。随机预测分类器的ROC位于主对角线上</p>
+<p>越靠近左上角、曲线下面积越大，分类器越好，</p>
+<h2 id="代价敏感学习"><a href="#代价敏感学习" class="headerlink" title="代价敏感学习"></a>代价敏感学习</h2><p>设置针对不同预测情况的代价（比如设置假负错误的代价比假警告的代价大100倍），评估模型的好坏。</p>
+<p>此外通过引入代价信息，可以使一些分类算法适应于不平衡的分类问题，诸如下图为叶结点t被指派为正类的条件（这更改了原先叶结点的决策规则）<br><img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/16.png"><br>可以发现如果C(-,+)&lt;C(+,-)（误报代价比漏报代价小），则阈值小于0.5，意味着学习器更倾向于正类，这意味着决策边界向负类扩展（侵占负类空间）。</p>
+<h2 id="基于抽样的方法"><a href="#基于抽样的方法" class="headerlink" title="基于抽样的方法"></a>基于抽样的方法</h2><p>基于对多数类的undersampling和对稀有类的oversampling，使类的分布达到平衡。不过oversampling会导致过拟合（噪音样本也可能被复制多遍）</p>
+<h1 id="多类问题"><a href="#多类问题" class="headerlink" title="多类问题"></a>多类问题</h1><p>前面描述的一些分类技术适用于二分类，如何应用到多分类问题？</p>
+<ol>
+<li><p>1-r：为每个类创建一个二元分类器，预测属不属于该类</p>
+</li>
+<li><p>1-1：为每对类创建一个二元分类器，预测属于其中哪个类</p>
+<p>以上两种做法可以归纳为组合预测，是基于投票表决的。容易出现平局情况，而且对基二元分类器的结果敏感</p>
+<h2 id="纠错输出编码（ECOC）"><a href="#纠错输出编码（ECOC）" class="headerlink" title="纠错输出编码（ECOC）"></a>纠错输出编码（ECOC）</h2><p>类似于计算机网络中的海明码，给每个类分配了长度为n的不同二进制位串，针对每一个位训练一个二分类器，那么n个二元分类器就能得出一串二进制码。比对和各个类的海明距离，选中最近的。</p>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/数据挖掘导论笔记-3-分类-其他技术/17.png">
+<p>假如所有类的代码串之间最近距离为4，那意味着当出现一个位的预测结果出错，我们还是可以进行纠正的。（需要注意代码串的设计不仅在行向距离上有要求，列向上也有要求，是为了使各个二元分类器相互独立）</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/10/Kaggle-3-House-Prices/" rel="next" title="Kaggle(3): House Prices">
+                <i class="fa fa-chevron-left"></i> Kaggle(3): House Prices
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/13/数据挖掘导论笔记-4-关联分析-基本概念和算法/" rel="prev" title="数据挖掘导论笔记(4): 关联分析-基本概念和算法">
+                数据挖掘导论笔记(4): 关联分析-基本概念和算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Nick" />
+            
+              <p class="site-author-name" itemprop="name">Nick</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/nick-stu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:chenhj183@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于规则的分类器"><span class="nav-number">1.</span> <span class="nav-text">基于规则的分类器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于规则的分类器的工作原理"><span class="nav-number">1.1.</span> <span class="nav-text">基于规则的分类器的工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#规则的排序方案"><span class="nav-number">1.2.</span> <span class="nav-text">规则的排序方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于规则的排序方案"><span class="nav-number">1.2.1.</span> <span class="nav-text">基于规则的排序方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于类的排序方案"><span class="nav-number">1.2.2.</span> <span class="nav-text">基于类的排序方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何建立基于规则的分类器"><span class="nav-number">1.3.</span> <span class="nav-text">如何建立基于规则的分类器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#规则提取的直接方法"><span class="nav-number">1.4.</span> <span class="nav-text">规则提取的直接方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Learn-One-Rule函数"><span class="nav-number">1.4.1.</span> <span class="nav-text">Learn-One-Rule函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#规则增长策略"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">规则增长策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#规则评估"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">规则评估</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#规则剪枝"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">规则剪枝</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#顺序覆盖基本原理"><span class="nav-number">1.4.2.</span> <span class="nav-text">顺序覆盖基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RIPPER算法"><span class="nav-number">1.4.3.</span> <span class="nav-text">RIPPER算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#规则提取的间接方法"><span class="nav-number">1.5.</span> <span class="nav-text">规则提取的间接方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于规则的分类器的特征"><span class="nav-number">1.6.</span> <span class="nav-text">基于规则的分类器的特征</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最近邻分类器"><span class="nav-number">2.</span> <span class="nav-text">最近邻分类器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#贝叶斯分类器"><span class="nav-number">3.</span> <span class="nav-text">贝叶斯分类器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯定理"><span class="nav-number">3.1.</span> <span class="nav-text">贝叶斯定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯定理在分类中的应用"><span class="nav-number">3.2.</span> <span class="nav-text">贝叶斯定理在分类中的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#朴素贝叶斯分类器"><span class="nav-number">3.3.</span> <span class="nav-text">朴素贝叶斯分类器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#条件独立性"><span class="nav-number">3.3.1.</span> <span class="nav-text">条件独立性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#朴素贝叶斯分类器如何工作"><span class="nav-number">3.3.2.</span> <span class="nav-text">朴素贝叶斯分类器如何工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#估计连续属性的条件概率"><span class="nav-number">3.3.3.</span> <span class="nav-text">估计连续属性的条件概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件概率的-m-估计"><span class="nav-number">3.3.4.</span> <span class="nav-text">条件概率的 m 估计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#朴素贝叶斯分类器的特征"><span class="nav-number">3.3.5.</span> <span class="nav-text">朴素贝叶斯分类器的特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯误差率"><span class="nav-number">3.4.</span> <span class="nav-text">贝叶斯误差率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯信念网络-Bayesian-belief-network，BBN"><span class="nav-number">3.5.</span> <span class="nav-text">贝叶斯信念网络(Bayesian belief network，BBN)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型表示"><span class="nav-number">3.5.1.</span> <span class="nav-text">模型表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立模型"><span class="nav-number">3.5.2.</span> <span class="nav-text">建立模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用BBN进行推理举例"><span class="nav-number">3.5.3.</span> <span class="nav-text">使用BBN进行推理举例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#人工神经网络"><span class="nav-number">4.</span> <span class="nav-text">人工神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#感知器"><span class="nav-number">4.1.</span> <span class="nav-text">感知器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#学习感知器模型"><span class="nav-number">4.1.1.</span> <span class="nav-text">学习感知器模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多层人工神经网络"><span class="nav-number">4.2.</span> <span class="nav-text">多层人工神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#学习ANN模型"><span class="nav-number">4.2.1.</span> <span class="nav-text">学习ANN模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计问题"><span class="nav-number">4.2.2.</span> <span class="nav-text">设计问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#支持向量机"><span class="nav-number">5.</span> <span class="nav-text">支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#最大边缘超平面"><span class="nav-number">5.1.</span> <span class="nav-text">最大边缘超平面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性支持向量机：可分情况"><span class="nav-number">5.2.</span> <span class="nav-text">线性支持向量机：可分情况</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性决策边界"><span class="nav-number">5.2.1.</span> <span class="nav-text">线性决策边界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性分类器的边缘"><span class="nav-number">5.2.2.</span> <span class="nav-text">线性分类器的边缘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习线性SVM模型"><span class="nav-number">5.2.3.</span> <span class="nav-text">学习线性SVM模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持向量机的特征"><span class="nav-number">5.3.</span> <span class="nav-text">支持向量机的特征</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#组合方法"><span class="nav-number">6.</span> <span class="nav-text">组合方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构建组合分类器的方法"><span class="nav-number">6.1.</span> <span class="nav-text">构建组合分类器的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#偏倚-方差分解"><span class="nav-number">6.2.</span> <span class="nav-text">偏倚-方差分解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装袋"><span class="nav-number">6.3.</span> <span class="nav-text">装袋</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提升"><span class="nav-number">6.4.</span> <span class="nav-text">提升</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoost"><span class="nav-number">6.4.1.</span> <span class="nav-text">AdaBoost</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不平衡类问题"><span class="nav-number">7.</span> <span class="nav-text">不平衡类问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#可选度量"><span class="nav-number">7.1.</span> <span class="nav-text">可选度量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接受者操作特征曲线"><span class="nav-number">7.2.</span> <span class="nav-text">接受者操作特征曲线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代价敏感学习"><span class="nav-number">7.3.</span> <span class="nav-text">代价敏感学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于抽样的方法"><span class="nav-number">7.4.</span> <span class="nav-text">基于抽样的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多类问题"><span class="nav-number">8.</span> <span class="nav-text">多类问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#纠错输出编码（ECOC）"><span class="nav-number">8.1.</span> <span class="nav-text">纠错输出编码（ECOC）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nick</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

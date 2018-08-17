@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘,机器学习,读书笔记," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言：4.6中 “比较分类器的方法” 一节中涉及不少统计学知识，值得一看    预备知识类标签必须是离散的，这正是区分分类和回归的关键特征。    定义上，分类任务就是通过学习得到一个目标函数f，把每个属性集x映射到一个预先定义的类标号y  分类技术非常适合预测或描述二元或标称类型的数据集，对于序数分类不太有效。本章也只考虑二元的或标称类型的类标号。 一般方法 分类法是一种根据输入数据集建立分类模">
+<meta name="keywords" content="数据挖掘,机器学习,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据挖掘导论笔记(2): 分类">
+<meta property="og:url" content="http://yoursite.com/2018/08/03/数据挖掘导论笔记(2) 分类/index.html">
+<meta property="og:site_name" content="Nick&#39;s Blog">
+<meta property="og:description" content="前言：4.6中 “比较分类器的方法” 一节中涉及不少统计学知识，值得一看    预备知识类标签必须是离散的，这正是区分分类和回归的关键特征。    定义上，分类任务就是通过学习得到一个目标函数f，把每个属性集x映射到一个预先定义的类标号y  分类技术非常适合预测或描述二元或标称类型的数据集，对于序数分类不太有效。本章也只考虑二元的或标称类型的类标号。 一般方法 分类法是一种根据输入数据集建立分类模">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/12/1.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/12/2.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/12/3.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/12/4.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/12/5.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/12/6.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/12/7.png">
+<meta property="og:image" content="http://pcvtat41q.bkt.clouddn.com/images/12/8.png">
+<meta property="og:updated_time" content="2018-08-17T08:08:31.131Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据挖掘导论笔记(2): 分类">
+<meta name="twitter:description" content="前言：4.6中 “比较分类器的方法” 一节中涉及不少统计学知识，值得一看    预备知识类标签必须是离散的，这正是区分分类和回归的关键特征。    定义上，分类任务就是通过学习得到一个目标函数f，把每个属性集x映射到一个预先定义的类标号y  分类技术非常适合预测或描述二元或标称类型的数据集，对于序数分类不太有效。本章也只考虑二元的或标称类型的类标号。 一般方法 分类法是一种根据输入数据集建立分类模">
+<meta name="twitter:image" content="http://pcvtat41q.bkt.clouddn.com/images/12/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/03/数据挖掘导论笔记(2) 分类/"/>
+
+
+
+
+
+  <title>数据挖掘导论笔记(2): 分类 | Nick's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?54a703726cc3b37647f2c63e92dec5b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/03/数据挖掘导论笔记(2) 分类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nick">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据挖掘导论笔记(2): 分类</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-03T16:39:53+08:00">
+                2018-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前言：4.6中 “比较分类器的方法” 一节中涉及不少统计学知识，值得一看  </p>
+<hr>
+<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><p>类标签必须是离散的，这正是区分分类和回归的关键特征。  </p>
+<blockquote>
+<p>定义上，分类任务就是通过学习得到一个目标函数f，把每个属性集x映射到一个预先定义的类标号y</p>
+</blockquote>
+<p>分类技术非常适合预测或描述二元或标称类型的数据集，对于序数分类不太有效。本章也只考虑二元的或标称类型的类标号。</p>
+<h1 id="一般方法"><a href="#一般方法" class="headerlink" title="一般方法"></a>一般方法</h1><blockquote>
+<p>分类法是一种根据输入数据集建立分类模型的系统方法  </p>
+</blockquote>
+<p>包括决策树、基于规则的分类法、神经网络、支持向量机和朴素贝叶斯分类法等。  </p>
+<p>模型达到的效果应该是<strong>拟合</strong>与<strong>预测</strong>（即泛化能力）<br>衡量分类模型性能可以是混淆矩阵和准确率（accuracy）<br><img src="http://pcvtat41q.bkt.clouddn.com/images/12/1.png">  </p>
+<center>混淆矩阵</center>
+
+<h1 id="决策树归纳"><a href="#决策树归纳" class="headerlink" title="决策树归纳"></a>决策树归纳</h1><h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><img src="http://pcvtat41q.bkt.clouddn.com/images/12/2.png">  
+<center>哺乳动物分类问题的决策树</center>
+
+<h2 id="如何建立"><a href="#如何建立" class="headerlink" title="如何建立"></a>如何建立</h2><h3 id="Hunt算法"><a href="#Hunt算法" class="headerlink" title="Hunt算法"></a>Hunt算法</h3><h3 id="设计问题"><a href="#设计问题" class="headerlink" title="设计问题"></a>设计问题</h3><ol>
+<li>如何分裂训练记录</li>
+<li>如何停止分裂</li>
+</ol>
+<h2 id="表示属性测试条件的方法"><a href="#表示属性测试条件的方法" class="headerlink" title="表示属性测试条件的方法"></a>表示属性测试条件的方法</h2><p>即针对不同类型的属性表示属性测试条件和其对应输出的方法，通俗来讲，分裂成什么(有多路划分也有二元划分，每一个部分是什么)  </p>
+<h2 id="选择最佳划分的度量"><a href="#选择最佳划分的度量" class="headerlink" title="选择最佳划分的度量"></a>选择最佳划分的度量</h2><img src="http://pcvtat41q.bkt.clouddn.com/images/12/3.png">  
+<center>不纯度</center>
+
+<p>基于对不纯度的度量，进行划分。父节点的不纯程度和子女节点的不纯程度，差越大，效果越好。<br>决策树归纳算法通常选择最大化<strong>增益$\Delta$</strong>的测试条件（即分裂的判断条件），因为I(parent)是不变的，所以等价于最小化子女节点的不纯性度量的加权平均值。<br>当选择熵作为不纯性度量时，熵的差就是所谓的信息增益。<br><img src="http://pcvtat41q.bkt.clouddn.com/images/12/4.png">  </p>
+<center>增益</center>
+
+<blockquote>
+<p>对于二元属性、标称属性和连续属性的划分都运用了上述的思想，即最小化子女结点的不纯性度量。值得一提的是，连续值需要穷举确定划分点，时间复杂度大，可以进行优化。</p>
+</blockquote>
+<h3 id="增益率"><a href="#增益率" class="headerlink" title="增益率"></a>增益率</h3><p>我们上面提到的最小化子女结点不纯性度量。但是当我们使用使用id区分用户时，子女结点的不纯性确实降到了最小。但是显而易见，这并不是一个好的测试条件，id并不是一个有预测性的属性，我们并不希望产生大量输出的测试条件（因为与每个划分相关联的记录太少，预测不可靠）。</p>
+<p>如何解决？<br>一是限制为二元划分（如CART）；二是修改评估方式（最大化增益转变为最大化增益率gain ratio）  </p>
+<p><center> $$Gain\ Ratio=\frac{\Delta_{info}}{Split\  Info} $$  </center><br>划分信息$\ Split\ Info=-\Sigma_{i=1}^{k}P(v_{i})log_{2}P(v_{i})$<br>k代表划分总数，某个属性产生大量划分，他的划分信息将会很大。<br>（顺便分享一下<a href="http://jzqt.github.io/2015/06/30/Markdown中写数学公式/" target="_blank" rel="noopener">如何用markdown表示数学公式</a> \ <a href="http://cyukang.com/2013/03/03/try-mathjax.html" target="_blank" rel="noopener">Jekyll使用MathJax来显示数学式</a>）  </p>
+<h2 id="决策树归纳算法"><a href="#决策树归纳算法" class="headerlink" title="决策树归纳算法"></a>决策树归纳算法</h2><img src="http://pcvtat41q.bkt.clouddn.com/images/12/5.png">  
+<p><center>TreeGrowth决策树归纳算法框架</center></p>
+<h2 id="决策树归纳的特点"><a href="#决策树归纳的特点" class="headerlink" title="决策树归纳的特点"></a>决策树归纳的特点</h2><ol>
+<li>决策树归纳是一种构建分类模型的非参数方法（不要求任何先验假设，不假定类和其他属性服从一定的概率分布）</li>
+<li>多采用启发式方法建立</li>
+<li>已开发的构建决策树技术可快速建立模型。决策树一旦建立，样本分类也非常快</li>
+<li>容易解释</li>
+<li>是学习离散值函数的典型代表，但并不能很好的推广到某些特定的布尔问题</li>
+<li>对于噪声干扰具有相当好的鲁棒性，特别是采用避免过分拟合方法后</li>
+<li>冗余属性不会对决策树造成太大不利影响。不过在数据预处理阶段还是需要删除不相干属性</li>
+<li>为了防止出现数据碎片问题，需要设置特定阈值停止分裂</li>
+<li>子树可能在决策树中重复多次</li>
+<li><p>本章之前介绍的测试条件都是每次只基于单属性，这就意味着决策边界是平行于坐标轴的直线，<strong>限制了决策树对连续属性之间复杂关系建模的表达能力</strong>。(斜决策树可以克服上述局限，具备更强表达能力；此外还有构造归纳法)</p>
+<img src="http://pcvtat41q.bkt.clouddn.com/images/12/6.png">  
+</li>
+<li><p>树剪枝的重要性比不纯性度量的选择还重要（不纯性度量方法的选择其实影响很小）</p>
+</li>
+</ol>
+<p><a href="http://www.r2d3.us/visual-intro-to-machine-learning-part-1/" target="_blank" rel="noopener">图解决策树</a></p>
+<h1 id="模型的过分拟合"><a href="#模型的过分拟合" class="headerlink" title="模型的过分拟合"></a>模型的过分拟合</h1><p>训练误差（训练样本）和泛化误差（测试样本）<br>拟合不足（underfitting）和过分拟合（overfitti）</p>
+<blockquote>
+<p>噪声（即无关属性）和多重比较过程导致过分拟合</p>
+</blockquote>
+<h2 id="泛化误差估计"><a href="#泛化误差估计" class="headerlink" title="泛化误差估计"></a>泛化误差估计</h2><h3 id="使用再代入估计"><a href="#使用再代入估计" class="headerlink" title="使用再代入估计"></a>使用再代入估计</h3><p>事实上就是简单的选择最低训练误差的模型作为最终的模型，对泛化误差的估计很差</p>
+<h3 id="结合模型复杂度"><a href="#结合模型复杂度" class="headerlink" title="结合模型复杂度"></a>结合模型复杂度</h3><p>简答的模型不容易过拟合,<a href="https://zh.wikipedia.org/zh-hans/奥卡姆剃刀" target="_blank" rel="noopener">奥卡姆剃刀(Occam’s razor)</a>  </p>
+<blockquote>
+<p>悲观误差评估:<center>$$ e_{g}(T)=\frac{\Sigma_{i=1}^{k}[e(t_{i})+\Omega(t_{i})]}{\Sigma_{i=1}^{k}n(t_{i})}=\frac{e(T)+\Omega(T)}{N_{i}}$$  </center><br>使用训练误差与模型复杂度<strong>罚项</strong>的和 计算泛化误差。其中n(t)是结点t分类的训练记录数，e(t)是被误分类的记录数，k是决策树的叶结点数，e(T)决策树的总训练误差，$N_{t}$是训练记录数，$\Omega(t_{i})$是每个结点$t_{i}$对应的罚项  </p>
+</blockquote>
+<p>.</p>
+<blockquote>
+<p>最小描述长度原则（minimum description length，MDL）</p>
+</blockquote>
+<h3 id="估计统计上界"><a href="#估计统计上界" class="headerlink" title="估计统计上界"></a>估计统计上界</h3><h3 id="使用确认集"><a href="#使用确认集" class="headerlink" title="使用确认集"></a>使用确认集</h3><p>相当于留一部分训练样本做测试样本</p>
+<h2 id="处理决策树归纳中的过分拟合"><a href="#处理决策树归纳中的过分拟合" class="headerlink" title="处理决策树归纳中的过分拟合"></a>处理决策树归纳中的过分拟合</h2><h3 id="先剪枝（提前终止规则）"><a href="#先剪枝（提前终止规则）" class="headerlink" title="先剪枝（提前终止规则）"></a>先剪枝（提前终止规则）</h3><p>例如增益低于阈值时就停止扩展叶结点，不过阈值难以确定</p>
+<h3 id="后剪枝"><a href="#后剪枝" class="headerlink" title="后剪枝"></a>后剪枝</h3><p>自底向上修剪</p>
+<ol>
+<li>用新叶结点替换子树</li>
+<li>用子树常用分支替换子树</li>
+</ol>
+<h1 id="评估分类器性能"><a href="#评估分类器性能" class="headerlink" title="评估分类器性能"></a>评估分类器性能</h1><h2 id="保持-Holdout-方法"><a href="#保持-Holdout-方法" class="headerlink" title="保持(Holdout)方法"></a>保持(Holdout)方法</h2><p>即常见的讲样本分为训练样本和测试样本。<br>缺点:</p>
+<ol>
+<li>训练集变小</li>
+<li>模型依赖训练集和检验集的构成</li>
+</ol>
+<h2 id="随机二次抽样"><a href="#随机二次抽样" class="headerlink" title="随机二次抽样"></a>随机二次抽样</h2><p>多次重复保持方法，总准确率是$$acc_{sub}=\frac{\Sigma_{i=1}^{k}acc_{i}}{k}$$</p>
+<h2 id="k折交叉验证-cross-validation"><a href="#k折交叉验证-cross-validation" class="headerlink" title="k折交叉验证(cross-validation)"></a>k折交叉验证(cross-validation)</h2><p>除了上面那些之外还有自助法等</p>
+<h1 id="比较分类器的方法"><a href="#比较分类器的方法" class="headerlink" title="比较分类器的方法"></a>比较分类器的方法</h1><p>依据数据集的大小，两个分类器准确率上的差异可能不是统计显著的（意味着仅凭准确率无法比较优劣）</p>
+<p>两个模型得出不同的准确度，A基于30个记录检验集上的准确率达到85%，另一个B基于5000个记录检验集上的准确率达到75%，我们如何选择？</p>
+<ol>
+<li>从置信区间上看</li>
+<li>从变差上看</li>
+</ol>
+<h2 id="估计准确度的置信区间"><a href="#估计准确度的置信区间" class="headerlink" title="估计准确度的置信区间"></a>估计准确度的<strong>置信区间</strong></h2><p><a href="https://www.zhihu.com/question/24801731/answer/251576717" target="_blank" rel="noopener">如何解释「置信区间」和「置信水平」？</a></p>
+<p>计算置信区间需要涉及正态分布，那么我们就构造正态分布，将我们的分类看成为二项式实验（每次预测的结果都是猜中与猜错），当记录个数N足够大时，可以近似用正态分布表示。<br><img src="http://pcvtat41q.bkt.clouddn.com/images/12/7.png"></p>
+<blockquote>
+<p>如何理解这个式子:<br>中间的操作是acc减去均值再除以标准差，显而易见，这也是在求标准分（实际上，把原正态分布转化为了标准正态分布，所以下面才能直接利用z表格）；<br>左右的$Z_{\alpha/2}、Z_{1-\alpha/2}$是标准分的意思，表示的是距离平均值几个标准误差，那么上面的公式就容易理解了。<br>标准分的概念和标准正态分布息息相关。</p>
+</blockquote>
+<p>通过整体，可以化为下面的表达式<br><img src="http://pcvtat41q.bkt.clouddn.com/images/12/8.png"><br>那么，基于检验记录，测得的准确率，置信水平，查表，代入公式就能求得置信区间（所谓区间就是一个范围，这里由于accuracy本来就是一个百分数，所以区间当然也用百分数表示，不要混淆）</p>
+<p>综上，在给定置信水平的情况下，通过比较置信区间，对于两个模型A、B的优劣就有定调了。</p>
+<h2 id="比较两个模型的性能（模型不同不意味分类法不同）"><a href="#比较两个模型的性能（模型不同不意味分类法不同）" class="headerlink" title="比较两个模型的性能（模型不同不意味分类法不同）"></a>比较两个模型的性能（模型不同不意味分类法不同）</h2><blockquote>
+<p>补充一下相关方面的知识<br><a href="https://www.zhihu.com/question/23149768/answer/282842210" target="_blank" rel="noopener">假设检验与统计显著–马同学在知乎的回答</a><br><a href="https://www.zhihu.com/question/20254932/answer/375134218" target="_blank" rel="noopener">假设检验与统计显著–猴子在知乎的回答</a><br><a href="http://book.51cto.com/art/201205/337283.htm" target="_blank" rel="noopener">单侧检验和双侧检验</a></p>
+</blockquote>
+<p>这里的目的是检验两个模型的错误率（或准确率）的观察差（实际检测得到的）是否是统计显著的（先大致认为统计学意义上真的有差别，而不只是波动或抽样导致的）<br>举个比较狭义的例子，两个模型得出的准确率相差0.05%，他们实际上是不是真的有差异？</p>
+<p>通过两个模型的检验记录数、错误率，我们可以计算出在特定的置信水平p下，其实际差（实际准确率的差值）的置信区间是否包含了0，若包含，那可以断言在P的置信水平下，该观察差（测得的准确率差值）不是统计显著的（即认为在p的置信水平下，我们不认为基于这些样本这两个模型体现出来的精度差是真实有效的）</p>
+<p>PS：建议看一下教材这里讲解用的题例</p>
+<h2 id="比较两种分类法的性能"><a href="#比较两种分类法的性能" class="headerlink" title="比较两种分类法的性能"></a>比较两种分类法的性能</h2><blockquote>
+<p>建议看教材题例</p>
+</blockquote>
+<p>基本思路与上面比较两个模型的性能相同：</p>
+<ol>
+<li>假设足够大，得两模型正态分布</li>
+<li>合并得观察差的正态分布（观测差d，服从均值为实际值、方差为$\sigma^{2}$的正态分布，而方差往往由前面得出的两个正态分布推出）</li>
+<li>计算特定置信水平下的置信区间（注意计算置信区间是基于观测差的，所以其中心是观测差）</li>
+<li>若区间包含0，则观察差不是统计显著的</li>
+</ol>
+<p>采用的是KFold交叉验证，同样是得出第j折的准确率差$d_{j}$服从均值为真实差、方差为$\sigma^{2}$的正态分布。不同的是最后利用t分布求出置信区间。</p>
+<p>t分布以后再讲，先介绍一下<a href="https://www.zhihu.com/question/22913867/answer/250046834" target="_blank" rel="noopener">中心极限定理与大数定律</a></p>
+<blockquote>
+<p>中心极限定理：<br>样本的平均值约等于总体的平均值。<br>不管总体是什么分布，任意一个总体的样本平均值都会围绕在总体的整体平均值周围，并且呈正态分布。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/02/Kaggle(2) Titanic/" rel="next" title="Kaggle(2): Titanic">
+                <i class="fa fa-chevron-left"></i> Kaggle(2): Titanic
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/03/转移阵地/" rel="prev" title="转移阵地">
+                转移阵地 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Nick" />
+            
+              <p class="site-author-name" itemprop="name">Nick</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/nick-stu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:chenhj183@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#预备知识"><span class="nav-number">1.</span> <span class="nav-text">预备知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一般方法"><span class="nav-number">2.</span> <span class="nav-text">一般方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#决策树归纳"><span class="nav-number">3.</span> <span class="nav-text">决策树归纳</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工作原理"><span class="nav-number">3.1.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何建立"><span class="nav-number">3.2.</span> <span class="nav-text">如何建立</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hunt算法"><span class="nav-number">3.2.1.</span> <span class="nav-text">Hunt算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计问题"><span class="nav-number">3.2.2.</span> <span class="nav-text">设计问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表示属性测试条件的方法"><span class="nav-number">3.3.</span> <span class="nav-text">表示属性测试条件的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择最佳划分的度量"><span class="nav-number">3.4.</span> <span class="nav-text">选择最佳划分的度量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#增益率"><span class="nav-number">3.4.1.</span> <span class="nav-text">增益率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树归纳算法"><span class="nav-number">3.5.</span> <span class="nav-text">决策树归纳算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树归纳的特点"><span class="nav-number">3.6.</span> <span class="nav-text">决策树归纳的特点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模型的过分拟合"><span class="nav-number">4.</span> <span class="nav-text">模型的过分拟合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#泛化误差估计"><span class="nav-number">4.1.</span> <span class="nav-text">泛化误差估计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用再代入估计"><span class="nav-number">4.1.1.</span> <span class="nav-text">使用再代入估计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结合模型复杂度"><span class="nav-number">4.1.2.</span> <span class="nav-text">结合模型复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#估计统计上界"><span class="nav-number">4.1.3.</span> <span class="nav-text">估计统计上界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用确认集"><span class="nav-number">4.1.4.</span> <span class="nav-text">使用确认集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理决策树归纳中的过分拟合"><span class="nav-number">4.2.</span> <span class="nav-text">处理决策树归纳中的过分拟合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先剪枝（提前终止规则）"><span class="nav-number">4.2.1.</span> <span class="nav-text">先剪枝（提前终止规则）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后剪枝"><span class="nav-number">4.2.2.</span> <span class="nav-text">后剪枝</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#评估分类器性能"><span class="nav-number">5.</span> <span class="nav-text">评估分类器性能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#保持-Holdout-方法"><span class="nav-number">5.1.</span> <span class="nav-text">保持(Holdout)方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机二次抽样"><span class="nav-number">5.2.</span> <span class="nav-text">随机二次抽样</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k折交叉验证-cross-validation"><span class="nav-number">5.3.</span> <span class="nav-text">k折交叉验证(cross-validation)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#比较分类器的方法"><span class="nav-number">6.</span> <span class="nav-text">比较分类器的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#估计准确度的置信区间"><span class="nav-number">6.1.</span> <span class="nav-text">估计准确度的置信区间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较两个模型的性能（模型不同不意味分类法不同）"><span class="nav-number">6.2.</span> <span class="nav-text">比较两个模型的性能（模型不同不意味分类法不同）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较两种分类法的性能"><span class="nav-number">6.3.</span> <span class="nav-text">比较两种分类法的性能</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nick</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
